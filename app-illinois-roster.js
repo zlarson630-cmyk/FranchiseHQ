@@ -64,6 +64,7 @@ function illinoisOutlook(x){
  const years=illinoisYears(x),base=years[0],pool=illinoisPool(x);
  const plan=x.illinoisDepth||{};
  let html='<h2>Illinois · Five-Year Outlook</h2><p class="muted">Three-deep roster planning: Guard, Wing, Big. These are roster groups, not fixed lineup positions. Assign any three eligible players per group for each season; how they fit into your five-man lineup can vary.</p>';
+ html+=illinoisEssentialsSummary(x,years)+illinoisEssentialsEditor(x,base);
  html+='<div class="outlook-scroll" role="region" tabindex="0" aria-label="Illinois five-year roster planning board"><div class="outlook-table" style="--outlook-years:5"><div class="outlook-head outlook-position-head">GROUP</div>'+years.map(y=>'<div class="outlook-head">'+y+'–'+String(y+1).slice(2)+'</div>').join('');
  for(const group of illinoisPositions){
   html+='<div class="outlook-year">'+group+'</div>';
@@ -99,5 +100,51 @@ function illinoisSetDepth(year,group,slot,name){
  next[slot]=name;
  for(const k of ['1','2','3'])if(k!==slot&&name&&next[k]===name)next[k]='';
  x.illinoisDepth[key]=next;
+ save();render();
+}
+
+// ROSTER ESSENTIALS RULES (Illinois)
+// True PG: passing, handle, decisions, enough perimeter defense to stay on floor.
+// Post Stopper: one-on-one interior defense, strength and positioning; used situationally.
+// A: elite; B: credible specialist; C: functional NOT specialist; D/F: poor fit.
+// Unrated is unknown, never promote the roster's best player to a B by default.
+// Need at least one A/B for each skill on the roster each season. Ratings are
+// skill-specific, season-specific, and independent of overall and position.
+// Source: earlier Role Depth Chart projects Shema Mattox as a "Post Lockdown"
+// specialist (no specific A-F grade); Jack Wilcox was projected a "Pure PG"
+// in 2010–11 but is not on the documented 2011–12 end-of-season roster.
+// PG-labeled Robin Summers and A. Eaton are candidates, not verified B specialists.
+const illinoisEssentials=[
+ {id:'truePG',title:'True Point Guard',why:'Passing · handling · decisions · viable perimeter defense'},
+ {id:'postStopper',title:'Post Stopper',why:'One-on-one post defense · strength · positioning'}
+];
+const illinoisSkillGrades=['','A','B','C','D','F'];
+function illinoisSkillGrade(x,year,name,role){return x.illinoisSkillGrades?.[year]?.[name]?.[role]||''}
+function illinoisEssentialsSummary(x,years){
+ const pool=illinoisPool(x),base=years[0];
+ let html='<section class="card"><h3>Roster Essentials · Five-Year Coverage</h3><p class="muted">One genuine A/B in each role is the goal. A C is functional but does not count as a specialist. No automatic grades from overall, listed position or depth-chart rank.</p><div style="overflow-x:auto"><table style="min-width:800px;width:100%;border-collapse:separate;border-spacing:6px"><tr><th>Essential</th>'+years.map(y=>'<th>'+y+'–'+String(y+1).slice(2)+'</th>').join('')+'</tr>';
+ for(const role of illinoisEssentials){
+  html+='<tr><th>'+esc(role.title)+'</th>';
+  for(const year of years){
+   const grades=pool.filter(p=>illinoisEligible(p,year,base)).map(p=>({name:p.name,grade:illinoisSkillGrade(x,year,p.name,role.id)})).filter(v=>v.grade);
+   const eligible=grades.filter(v=>v.grade==='A'||v.grade==='B').sort((a,b)=>a.grade.localeCompare(b.grade));
+   const best=eligible[0],label=best?best.grade+' · '+best.name:grades.length?'No B/A yet':'Not evaluated';
+   html+='<td style="padding:8px;background:var(--soft,#f2f4f7);border-radius:8px"><strong>'+esc(label)+'</strong></td>';
+  }
+  html+='</tr>';
+ }
+ return html+'</table></div></section>';
+}
+function illinoisEssentialsEditor(x,year){
+ const roster=(x.players||[]).map((p,i)=>({p,i})).filter(v=>illinoisEligible(v.p,year,year));
+ return '<section><h3>Evaluate roster essentials · '+year+'–'+String(year+1).slice(2)+'</h3><p class="muted">Unrated means unknown, not inadequate. Shema Mattox was a projected post-lockdown candidate in the older planning sheet, but no 2011–12 grade is confirmed. PG designations alone do not prove true-point-guard ability.</p><div class="grid">'+roster.map(({p,i})=>'<div class="card"><strong>'+esc(p.name)+'</strong><p class="muted">'+esc(p.pos||'')+' · '+(p.overall===undefined?'OVR unknown':esc(p.overall)+' OVR')+'</p>'+illinoisEssentials.map(role=>'<label style="display:block"><small>'+esc(role.title)+'</small><select style="width:100%" onchange="illinoisSetSkillGrade('+year+','+i+',\''+role.id+'\',this.value)">'+illinoisSkillGrades.map(g=>'<option value="'+g+'" '+(g===illinoisSkillGrade(x,year,p.name,role.id)?'selected':'')+'>'+esc(g||'Not evaluated')+'</option>').join('')+'</select></label>').join('')+'</div>').join('')+'</div></section>';
+}
+function illinoisSetSkillGrade(year,index,role,grade){
+ const x=f(),p=x.players?.[index];
+ if(x.id!=='illinois-basketball-2010'||!p||!illinoisEssentials.some(r=>r.id===role)||!illinoisSkillGrades.includes(grade))return;
+ x.illinoisSkillGrades=x.illinoisSkillGrades||{};
+ const entry=(x.illinoisSkillGrades[year]=x.illinoisSkillGrades[year]||{});
+ const traits=(entry[p.name]=entry[p.name]||{});
+ if(grade)traits[role]=grade;else delete traits[role];
  save();render();
 }
