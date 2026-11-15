@@ -30,7 +30,7 @@ function afblSeedPlanner(){const x=data.find(v=>v.id===KENTUCKY_ID);if(!x)return
 {id:'hernandez',name:'Willie Hernandez',age:37,level:'MLB',role:'SP',hand:'R',stuff:3,movement:5,control:7,summary:'Veteran groundball starter; monitor long-term replacement.'},
 {id:'mullinix',name:'Chris Mullinix',age:22,level:'AAA',role:'SP',hand:'R',stuff:5,movement:5,control:5,potential:'6/5/5',usage:'Starting',summary:'9 starts in 9 AAA games; 2.35 ERA in 2075. Keep starting; promotion watch.'},
 {id:'ayala',name:'Eddie Ayala',age:22,level:'A',role:'SP candidate',hand:'R',stuff:5,movement:4,control:3,potential:'6/6/5',usage:'Relief',summary:'16 relief appearances, zero starts in 2075. Prioritize starter trial.'}
-];for(const player of known)if(!p.players.some(v=>v.id===player.id||v.name.toLowerCase()===player.name.toLowerCase()))p.players.push(player)}
+];for(const player of known){const existing=p.players.find(v=>v.id===player.id||v.name.toLowerCase()===player.name.toLowerCase());if(!existing)p.players.push(player);else if(!existing.usage&&player.usage)existing.usage=player.usage}}
 function afblPlannerCard(player,year){const age=player.age==null?'':('Age '+(Number(player.age)+year-2075));return '<div class="afbl-player-card"><div class="afbl-player-top"><strong>'+esc(player.name)+'</strong><small>'+esc(player.level||'—')+'</small></div><div class="afbl-player-meta">'+esc([player.hand?player.hand+'HP':'',age,player.role].filter(Boolean).join(' · '))+'</div><div class="afbl-player-meta">STU '+afblField(player.stuff)+' · MOV '+afblField(player.movement)+' · CON '+afblField(player.control)+'</div>'+(player.potential?'<div class="afbl-player-meta">Potential '+esc(player.potential)+'</div>':'')+'</div>'}
 
 function afblFiveYear(x){
