@@ -129,20 +129,7 @@ function afblSnapshotGroup(player){const role=String(player.role||'').toUpperCas
 function afblSnapshotRating(player,metric){const v=player[metric];return v===null||v===undefined||v===''?'—':String(v)}
 function afblRosterSnapshot(x){
  const p=afblPlanner(x),players=p.players.filter(v=>!afblSpEligible(v)&&!afblReliefEligible(v)).slice().sort((a,b)=>AFBL_SNAPSHOT_ORDER.indexOf(afblSnapshotGroup(a))-AFBL_SNAPSHOT_ORDER.indexOf(afblSnapshotGroup(b))||a.name.localeCompare(b.name));
- let html='<div class="afbl-dashboard"><div class="row"><h2 class="wide">Kentucky Roster Snapshot</h2><button onclick="changeTab(\'Roster Planner\')">Detailed planner →</button></div>'+afblSpSnapshot(p)+afblReliefSnapshot(p)+afblHitterSnapshot(p)+'<p class="muted">Other positions · Players down the left, 2075–2079 across the top. Future assignments are plans, not completed OOTP moves.</p><div class="snapshot-scroll"><div class="snapshot-grid afbl-snapshot-grid"><div class="snapshot-head snapshot-player-head">PLAYER</div>'+AFBL_YEARS.map(y=>'<div class="snapshot-head">'+y+'</div>').join('');
- let group='';
- for(const player of players){
-  const g=afblSnapshotGroup(player);if(g!==group){group=g;html+='<div class="snapshot-group">'+g+'</div>'}
-  const id=JSON.stringify(player.id),level=player.level||'Unknown',age=player.age==null?'':' · Age '+player.age;
-  html+='<button class="snapshot-player" onclick="afblEditPlayer('+id+')"><span class="snapshot-player-name">'+esc(player.name)+'</span><small>'+esc(level+' · '+(player.role||'Unassigned')+age)+'</small></button>';
-  for(const y of AFBL_YEARS){
-   const slot=Object.keys(p.slots).find(k=>k.startsWith(y+':')&&p.slots[k]===player.id),projected=slot?slot.split(':')[1]:'',isCurrent=y===2075;
-   const tier=afblStarTier(player.stars);const tooltip=esc(player.name+' · '+y+(projected?' · Projected '+projected:'')+' · Scouting STU/MOV/CON');
-   html+='<div class="snapshot-rating-cell afbl-snapshot-cell">'+(isCurrent||projected?'<button class="afbl-snapshot-pill '+'afbl-tier-'+tier+'" onclick="afblEditPlayer('+id+')" title="'+tooltip+'">'+(projected?'<strong>'+esc(projected)+'</strong>':isCurrent?'<strong>'+esc(level)+'</strong>':'')+'<span>'+esc([afblSnapshotRating(player,'stuff'),afblSnapshotRating(player,'movement'),afblSnapshotRating(player,'control')].join(' / '))+'</span>'+afblStarBadge(player)+'</button>':'<span class="snapshot-empty">—</span>')+'</div>'
-  }
- }
- html+='</div></div><p class="muted">Colors represent entered OOTP overall star ratings: 0.5–1 gray, 1.5–2 bronze, 2.5–3 silver, 3.5–4 gold, 4.5–5 platinum teal. Unknown stars stay neutral. Ratings are current OSA Stuff / Movement / Control (1–10), not future predictions. The 2075 column shows the known organizational level; later columns display assigned projected roles. An empty future cell means no projection has been entered.</p><div class="row"><button onclick="changeTab(\'Roster Planner\')">Edit five-year assignments →</button><button onclick="afblEditPlayer()">+ Add player</button></div></div>';
- return html
+ let html='<div class="afbl-dashboard"><div class="row"><h2 class="wide">Kentucky Roster Snapshot</h2><button onclick="changeTab(\'Roster Planner\')">Detailed planner →</button></div>'+afblSpSnapshot(p)+afblReliefSnapshot(p)+afblHitterSnapshot(p)+'</div>';return html
 }
 
 /* One-time prospect import from Kentucky Top Prospects report, 2075-06-03. */
