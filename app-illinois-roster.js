@@ -35,7 +35,7 @@ function illinoisYears(x){const start=illinoisBase(x);return Array.from({length:
 function illinoisEligible(p,year,base){
  if(p.source==='archive')return year===base;
  const raw=String(p.year||'').toLowerCase();
- const stage=/freshman|\\bfr\\b/.test(raw)?0:/sophomore|\\bso\\b/.test(raw)?1:/junior|\\bjr\\b/.test(raw)?2:/senior|\\bsr\\b/.test(raw)?3:null;
+ const stage=/freshman|\bfr\b/.test(raw)?0:/sophomore|\bso\b/.test(raw)?1:/junior|\bjr\b/.test(raw)?2:/senior|\bsr\b/.test(raw)?3:null;
  return stage===null?year===base:stage+(year-base)<=3;
 }
 function illinoisRating(p,year,base){return p.source==='archive'?null:projectedOverall(p,year,base)}
