@@ -96,4 +96,4 @@ function setRating(k,v){const x=f();x.ratingThresholds=x.ratingThresholds||{};x.
 function backup(){const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='franchise-hq-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 async function restore(e){try{const x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x)||!x.every(z=>z.id&&z.name&&Array.isArray(z.players)))throw Error('Invalid backup');if(!confirm('Replace all local franchises with this backup?'))return;data=x;selected=data[0].id;save();render()}catch(err){alert(err.message)}}
 save();render();if(location.hash.startsWith('#player=')){const name=decodeURIComponent(location.hash.slice(8));const i=f().players.findIndex(p=>p.name===name);if(i>=0)openPlayer(i)}
-</script><script src="illinois-legacy.js"></script></html>
+</script><script src="illinois-legacy.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="franchise-cloud.js"></script></html>
