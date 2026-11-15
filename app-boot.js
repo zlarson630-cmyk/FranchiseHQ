@@ -1,1 +1,1 @@
-seedBjornsonArticleArchive();seedBjornsonNewsroom();seedBjornsonFoundation();seedBjornsonMedia();save();render();if(location.hash.startsWith('#player=')){const name=decodeURIComponent(location.hash.slice(8));const i=f().players.findIndex(p=>p.name===name);if(i>=0)openPlayer(i)}
+seedIllinoisHistory();seedBjornsonArticleArchive();seedBjornsonNewsroom();seedBjornsonFoundation();seedBjornsonMedia();save();render();if(location.hash.startsWith('#player=')){const name=decodeURIComponent(location.hash.slice(8));const i=f().players.findIndex(p=>p.name===name);if(i>=0)openPlayer(i)}
