@@ -114,6 +114,8 @@
     if(event==="SIGNED_OUT"&&user){setTimeout(()=>signedIn(null),0);}
   });
   client.auth.getSession().then(({data:session,error})=>{if(error){tell("Cloud sign-in unavailable: "+error.message);panel();return;} if(session.session?.user&&user?.id!==session.session.user.id)signedIn(session.session.user);else panel();});
+  const saveOrig=save;
+  save=function(){saveOrig();scheduleSave();};
   const renderOrig=render;
   render=function(){renderOrig();panel();};
 })();
