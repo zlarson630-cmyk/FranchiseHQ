@@ -1,6 +1,30 @@
 // Illinois basketball planning views: historical players are references, not fabricated current roster entries.
+// Verified from Illinois Dynasty / Roster History, 2011-2012 end-of-regular-season checkpoint.
+// The historical source is explicitly partial (nine visible players). Never fill unknown names from inference.
+const illinois2012Roster=[
+ {name:'Shema Mattox',pos:'C',number:'43',year:'Senior',overall:89,size:"7'1\", 263 lb",hometown:'California',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +1.'},
+ {name:'Robin Summers',pos:'PG',number:'1',year:'Senior',overall:86,size:"5'11\", 175 lb",hometown:'Idaho',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +2.'},
+ {name:'Solomon Nelson',pos:'C',number:'50',year:'Junior',overall:85,size:"7'3\", 282 lb",hometown:'California',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +2.'},
+ {name:'#24',pos:'SG',number:'24',year:'RS Senior',overall:84,size:"6'3\", 200 lb",hometown:'California',notes:'Name not recorded; shown as SG #24. OVR increase shown: +2.'},
+ {name:'Mekel Defares',pos:'SF',number:'20',year:'RS Junior',overall:82,size:"6'6\", 201 lb",hometown:'New York',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +1.'},
+ {name:'#54',pos:'C',number:'54',year:'RS Senior',overall:80,size:"7'1\", 244 lb",hometown:'Illinois',notes:'Name not recorded; shown as C #54. OVR increase shown: +3.'},
+ {name:'Laramie Osimani',pos:'PF',number:'41',year:'Sophomore',overall:80,size:"6'11\", 219 lb",hometown:'Illinois',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +2.'},
+ {name:'Vern Leadbetter',pos:'PF',number:'42',year:'Sophomore',overall:80,size:"6'8\", 220 lb",hometown:'Missouri',notes:'2011–12 end-of-regular-season roster history. OVR increase shown: +2.'},
+ {name:'A. Eaton',pos:'PG',number:'3',year:'Freshman',overall:77,size:"5'6\", 177 lb",hometown:'Tennessee',notes:'First name not documented. 2011–12 end-of-regular-season roster history. OVR increase shown: +2.'}
+];
+function seedIllinoisCurrentRoster(){
+ const x=data.find(z=>z.id==='illinois-basketball-2010');if(!x)return false;
+ x.players=Array.isArray(x.players)?x.players:[];
+ let added=false;
+ for(const p of illinois2012Roster){
+   if(x.players.some(q=>q.name===p.name || (String(q.number||'')===p.number && String(q.pos||'')===p.pos)))continue;
+   x.players.push({...p,source:'Illinois Dynasty · Roster History · 2011–12'});
+   added=true;
+ }
+ return added;
+}
 const illinoisPositions=['PG','SG','SF','PF','C'];
-function illinoisBase(x){return Number(String(x.season||'2011').match(/\d{4}/)?.[0])===2010?2011:Number(String(x.season||'2011').match(/\d{4}/)?.[0])||2011}
+function illinoisBase(x){return 2011}
 function illinoisPool(x){
  const current=(x.players||[]).map((p,i)=>({...p,source:'roster',rosterIndex:i}));
  const known=(x.historicalPlayers||[]).filter(p=>p.id?.startsWith('illinois-')&&!current.some(c=>c.name===p.name)).map(p=>({...p,pos:p.position||'',year:'',source:'archive'}));
@@ -9,9 +33,10 @@ function illinoisPool(x){
 function illinoisPos(p){return String(p.pos||p.position||'').toUpperCase().trim()}
 function illinoisYears(x){const start=illinoisBase(x);return Array.from({length:5},(_,i)=>start+i)}
 function illinoisEligible(p,year,base){
- if(p.source==='archive')return year===2011;
- if(!p.year)return year===base;
- return eligible(p,year,base);
+ if(p.source==='archive')return year===base;
+ const raw=String(p.year||'').toLowerCase();
+ const stage=/freshman|\\bfr\\b/.test(raw)?0:/sophomore|\\bso\\b/.test(raw)?1:/junior|\\bjr\\b/.test(raw)?2:/senior|\\bsr\\b/.test(raw)?3:null;
+ return stage===null?year===base:stage+(year-base)<=3;
 }
 function illinoisRating(p,year,base){return p.source==='archive'?null:projectedOverall(p,year,base)}
 function illinoisNameButton(p){return p.source==='roster'?'<button class="profile-link" onclick="openPlayer('+p.rosterIndex+')">'+esc(p.name)+'</button>':'<strong>'+esc(p.name)+'</strong>'}
