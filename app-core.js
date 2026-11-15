@@ -52,18 +52,14 @@ function backupLine(x,yr,slot,pos,name,base){const p=outlookCandidates(x,yr,base
 function ratingColor(v,x){if(v===undefined||v===null||v==='')return '#707783';const n=Number(v);return n>=90?'#d629a0':n>=85?'#00bfd0':n>=80?'#d5a526':n>=75?'#a9b3c2':n>=65?'#b87945':'#707783'}
 function devMark(d){const v=String(d||'').toLowerCase();return v==='elite'?'<span class="dev-mark"><span class="dev-icon" style="color:#dbb5ff">◆</span> Elite Dev</span>':v==='star'?'<span class="dev-mark"><span class="dev-icon" style="color:#e9c35a">★</span> Star Dev</span>':v==='normal'?'<span class="dev-mark"><span class="dev-icon" style="color:#d0d5df">●</span> Normal Dev</span>':'<span class="dev-mark">Dev unknown</span>'}
 function projectedOverall(p,yr,base){if(p.overall===undefined||p.overall===null||p.overall==='')return null;const current=Number(p.overall),years=Math.max(0,yr-base);const rates={elite:5,star:4,impact:3,normal:2};const gain=rates[String(p.dev||'').toLowerCase()]||0;const limit=p.capOverall!==undefined&&p.capOverall!==''?Number(p.capOverall):(p.capped===true||String(p.capped).toLowerCase()==='yes'?current:99);return Math.min(99,limit,current+years*gain)}
-let outlookMobileYear=null;
-function chooseOutlookYear(year){outlookMobileYear=Number(year);render()}
 function outlook(x){
  if(/basketball/i.test(x.sport||''))return '<h2>Five-Year Outlook · Basketball</h2><p class="muted">Basketball rotation planning is not yet configured.</p>';
  const base=Number(x.season)||2029;
- const mobile=typeof window!=='undefined'&&window.innerWidth<=700;
- if(!Number.isFinite(outlookMobileYear)||outlookMobileYear<base||outlookMobileYear>base+4)outlookMobileYear=base;
- const years=mobile?[outlookMobileYear]:Array.from({length:5},(_,i)=>base+i);
+ const years=Array.from({length:5},(_,i)=>base+i);
  const candidateCache=new Map(years.map(yr=>[yr,outlookCandidates(x,yr,base)]));
  let html='<h2>Five-Year Outlook</h2><p class="muted">Projected team depth chart · '+base+'–'+(base+4)+'. Positions down the left; years across the top. Assign a starter and optional backup without changing the actual roster.</p>';
- if(mobile)html+='<div class="outlook-mobile-years" role="group" aria-label="Select projected season">'+Array.from({length:5},(_,i)=>'<button type="button" class="'+(outlookMobileYear===base+i?'active':'')+'" aria-pressed="'+(outlookMobileYear===base+i)+'" onclick="chooseOutlookYear('+(base+i)+')">'+(base+i)+'</button>').join('')+'</div><p class="muted outlook-mobile-hint">One season shown at a time on smaller screens. All five seasons remain saved.</p>';
- html+='<div class="outlook-scroll"><div class="outlook-table" style="--outlook-years:'+years.length+'"><div class="outlook-head outlook-position-head">POSITION</div>'+years.map(yr=>'<div class="outlook-head">'+yr+'</div>').join('');
+
+ html+='<div class="outlook-scroll" role="region" aria-label="Five-year depth chart, scroll horizontally to compare seasons" tabindex="0"><div class="outlook-table" style="--outlook-years:'+years.length+'"><div class="outlook-head outlook-position-head">POSITION</div>'+years.map(yr=>'<div class="outlook-head">'+yr+'</div>').join('');
  for(const [slot,pos] of outlookSlots){
   html+='<div class="outlook-year">'+esc(slot)+'</div>';
   for(const yr of years){
