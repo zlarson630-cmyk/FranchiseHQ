@@ -54,3 +54,25 @@ function afblSavePlayer(e,id){e.preventDefault();const p=afblPlanner(f()),v=Obje
 function afblDeletePlayer(id){if(!confirm('Delete this planning card and its projections?'))return;const p=afblPlanner(f());p.players=p.players.filter(v=>v.id!==id);for(const k of Object.keys(p.slots))if(p.slots[k]===id)delete p.slots[k];save();render()}
 
 function afblRosterPlanner(x){return afblFiveYear(x)}
+
+/* Compact baseball counterpart to Washington's five-season roster snapshot. */
+const AFBL_SNAPSHOT_ORDER=['SP','RP','CL','SU','C','1B','2B','3B','SS','LF','CF','RF','DH','OTHER'];
+function afblSnapshotGroup(player){const role=String(player.role||'').toUpperCase();if(role.includes('SP'))return 'SP';if(['RP','CL','SU'].includes(role))return 'RP';const pos=role.split(/[ ,/]+/)[0];return AFBL_SNAPSHOT_ORDER.includes(pos)?pos:'OTHER'}
+function afblSnapshotRating(player,metric){const v=player[metric];return v===null||v===undefined||v===''?'—':String(v)}
+function afblRosterSnapshot(x){
+ const p=afblPlanner(x),players=p.players.slice().sort((a,b)=>AFBL_SNAPSHOT_ORDER.indexOf(afblSnapshotGroup(a))-AFBL_SNAPSHOT_ORDER.indexOf(afblSnapshotGroup(b))||a.name.localeCompare(b.name));
+ let html='<div class="afbl-dashboard"><div class="row"><h2 class="wide">Kentucky Roster Snapshot</h2><button onclick="changeTab(\'Roster Planner\')">Detailed planner →</button></div><p class="muted">Players down the left, 2075–2079 across the top. Current scouting ratings remain unchanged across projected seasons; future roster assignments are plans, not completed OOTP moves.</p><div class="snapshot-scroll"><div class="snapshot-grid afbl-snapshot-grid"><div class="snapshot-head snapshot-player-head">PLAYER</div>'+AFBL_YEARS.map(y=>'<div class="snapshot-head">'+y+'</div>').join('');
+ let group='';
+ for(const player of players){
+  const g=afblSnapshotGroup(player);if(g!==group){group=g;html+='<div class="snapshot-group">'+g+'</div>'}
+  const id=JSON.stringify(player.id),level=player.level||'Unknown',age=player.age==null?'':' · Age '+player.age;
+  html+='<button class="snapshot-player" onclick="afblEditPlayer('+id+')"><span class="snapshot-player-name">'+esc(player.name)+'</span><small>'+esc(level+' · '+(player.role||'Unassigned')+age)+'</small></button>';
+  for(const y of AFBL_YEARS){
+   const slot=Object.keys(p.slots).find(k=>k.startsWith(y+':')&&p.slots[k]===player.id),projected=slot?slot.split(':')[1]:'',isCurrent=y===2075;
+   const tooltip=esc(player.name+' · '+y+(projected?' · Projected '+projected:'')+' · Scouting STU/MOV/CON');
+   html+='<div class="snapshot-rating-cell afbl-snapshot-cell">'+(isCurrent||projected?'<button class="afbl-snapshot-pill '+(isCurrent?'afbl-snapshot-current':'afbl-snapshot-future')+'" onclick="afblEditPlayer('+id+')" title="'+tooltip+'">'+(projected?'<strong>'+esc(projected)+'</strong>':isCurrent?'<strong>'+esc(level)+'</strong>':'')+'<span>'+esc([afblSnapshotRating(player,'stuff'),afblSnapshotRating(player,'movement'),afblSnapshotRating(player,'control')].join(' / '))+'</span></button>':'<span class="snapshot-empty">—</span>')+'</div>'
+  }
+ }
+ html+='</div></div><p class="muted">Ratings are current OSA Stuff / Movement / Control (1–10), not future predictions. The 2075 column shows the known organizational level; later columns display assigned projected roles. An empty future cell means no projection has been entered.</p><div class="row"><button onclick="changeTab(\'Roster Planner\')">Edit five-year assignments →</button><button onclick="afblEditPlayer()">+ Add player</button></div></div>';
+ return html
+}
