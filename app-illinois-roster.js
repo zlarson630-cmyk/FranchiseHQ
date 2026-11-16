@@ -7,20 +7,36 @@
 const illinois2012Roster=[{"name":"Shema Mattox","number":43,"pos":"C","year":"SR","overall":89,"potential":"B-","close":95,"medium":73,"threePoint":62,"freeThrow":76,"handling":63,"passing":63,"lowOffense":82,"lowDefense":89,"defense":70,"blocks":86,"steals":79,"offensiveRebound":91,"defensiveRebound":90,"speed":76,"quickness":67,"vertical":74,"strength":92,"height":"7'1\"","weight":263,"hometown":"Fresno, CA","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Solomon Nelson","number":50,"pos":"C","year":"JR","overall":85,"potential":"B","close":87,"medium":74,"threePoint":49,"freeThrow":69,"handling":67,"passing":65,"lowOffense":89,"lowDefense":87,"defense":63,"blocks":72,"steals":70,"offensiveRebound":87,"defensiveRebound":89,"speed":71,"quickness":78,"vertical":84,"strength":81,"height":"7'3\"","weight":282,"hometown":"Orange, CA","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"SG #24","number":24,"pos":"SG","year":"SR","overall":84,"potential":"B-","close":85,"medium":76,"threePoint":73,"freeThrow":75,"handling":88,"passing":66,"lowOffense":60,"lowDefense":66,"defense":91,"blocks":52,"steals":81,"offensiveRebound":68,"defensiveRebound":77,"speed":92,"quickness":93,"vertical":96,"strength":62,"height":"6'3\"","weight":200,"hometown":"Los Angeles, CA","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Mekel Defares","number":20,"pos":"SF","year":"JR","overall":82,"potential":"C+","close":90,"medium":76,"threePoint":86,"freeThrow":76,"handling":82,"passing":68,"lowOffense":70,"lowDefense":65,"defense":85,"blocks":61,"steals":83,"offensiveRebound":65,"defensiveRebound":72,"speed":88,"quickness":93,"vertical":92,"strength":71,"height":"6'6\"","weight":201,"hometown":"Queens, NY","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Laramie Osimani","number":41,"pos":"PF","year":"SO","overall":80,"potential":"C-","close":92,"medium":70,"threePoint":75,"freeThrow":64,"handling":64,"passing":53,"lowOffense":78,"lowDefense":79,"defense":73,"blocks":66,"steals":61,"offensiveRebound":87,"defensiveRebound":82,"speed":79,"quickness":73,"vertical":73,"strength":70,"height":"6'11\"","weight":219,"hometown":"Chicago, IL","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Vern Leadbetter","number":42,"pos":"PF","year":"SO","overall":80,"potential":"C","close":92,"medium":70,"threePoint":75,"freeThrow":78,"handling":58,"passing":61,"lowOffense":78,"lowDefense":79,"defense":72,"blocks":76,"steals":72,"offensiveRebound":88,"defensiveRebound":81,"speed":73,"quickness":76,"vertical":76,"strength":68,"height":"6'8\"","weight":220,"hometown":"Florissant, MO","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"C #54","number":54,"pos":"C","year":"SR","overall":80,"potential":"B","close":92,"medium":68,"threePoint":50,"freeThrow":72,"handling":57,"passing":65,"lowOffense":80,"lowDefense":78,"defense":66,"blocks":94,"steals":64,"offensiveRebound":85,"defensiveRebound":91,"speed":74,"quickness":74,"vertical":64,"strength":64,"height":"7'1\"","weight":244,"hometown":"Joliet, IL","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Parker Jefferies","number":15,"pos":"PG","year":"FR","overall":77,"potential":"C","close":78,"medium":76,"threePoint":86,"freeThrow":71,"handling":84,"passing":74,"lowOffense":57,"lowDefense":52,"defense":62,"blocks":61,"steals":79,"offensiveRebound":62,"defensiveRebound":64,"speed":88,"quickness":85,"vertical":69,"strength":63,"height":"6'1\"","weight":178,"hometown":"Miami Beach, FL","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Ashley Eaton","number":3,"pos":"PG","year":"FR","overall":77,"potential":"C+","close":86,"medium":78,"threePoint":76,"freeThrow":91,"handling":84,"passing":73,"lowOffense":56,"lowDefense":59,"defense":69,"blocks":51,"steals":82,"offensiveRebound":60,"defensiveRebound":65,"speed":95,"quickness":84,"vertical":68,"strength":65,"height":"5'6\"","weight":177,"hometown":"Memphis, TN","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Cortez Simpson","number":52,"pos":"PF","year":"FR","overall":76,"potential":"B-","close":84,"medium":72,"threePoint":56,"freeThrow":81,"handling":62,"passing":58,"lowOffense":85,"lowDefense":89,"defense":66,"blocks":70,"steals":59,"offensiveRebound":77,"defensiveRebound":85,"speed":73,"quickness":75,"vertical":78,"strength":62,"height":"6'8\"","weight":195,"hometown":"Memphis, TN","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Christano Timba","number":35,"pos":"SG","year":"SO","overall":71,"potential":"D","close":84,"medium":77,"threePoint":66,"freeThrow":73,"handling":79,"passing":70,"lowOffense":64,"lowDefense":56,"defense":60,"blocks":47,"steals":76,"offensiveRebound":69,"defensiveRebound":73,"speed":87,"quickness":81,"vertical":78,"strength":61,"height":"6'4\"","weight":214,"hometown":"Cameroon","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"},{"name":"Sammy Cooperwood","number":45,"pos":"PF","year":"JR","overall":71,"potential":"C","close":88,"medium":68,"threePoint":61,"freeThrow":56,"handling":56,"passing":52,"lowOffense":68,"lowDefense":74,"defense":65,"blocks":78,"steals":72,"offensiveRebound":78,"defensiveRebound":79,"speed":68,"quickness":69,"vertical":74,"strength":67,"height":"6'8\"","weight":225,"hometown":"Montgomery, AL","source":"Illinois 2K8 Roster · 12 Players · uploaded spreadsheet"}];
 function seedIllinoisCurrentRoster(){
  const x=data.find(z=>z.id==='illinois-basketball-2010');if(!x)return false;
+ const version='2026-11-15-uploaded-12-player-roster';
+ if(x.illinoisRosterImportVersion===version)return false;
  x.players=Array.isArray(x.players)?x.players:[];
  let changed=false;
+ const source='Illinois Dynasty · Roster History · 2011–12';
+ // Historical partial-roster placeholders superseded by the uploaded full roster.
+ // Keep any custom user-entered Robin Summers record rather than deleting it.
+ const originalLength=x.players.length;
+ x.players=x.players.filter(p=>!(p.name==='Robin Summers'&&String(p.number)==='1'&&p.source===source));
+ if(x.players.length!==originalLength)changed=true;
  for(const p of illinois2012Roster){
-  const match=x.players.find(q=>(String(q.number||'')===String(p.number)&&String(q.pos||'').toUpperCase()===p.pos)||q.name===p.name);
+  const match=x.players.find(q=>(String(q.number??'')===String(p.number)&&String(q.pos||'').toUpperCase()===p.pos)||q.name===p.name||
+    (p.name==='Ashley Eaton'&&q.name==='A. Eaton'&&String(q.number)==='3'));
   if(match){
-   for(const [key,value] of Object.entries(p)){if(key==='name'&&match.name!==p.name&&match.name!==('A. Eaton')&&match.name!=='#24'&&match.name!=='#54')continue;if(match[key]!==value){match[key]=value;changed=true;}}
+   // Spreadsheet fields are authoritative for previously seeded partial records.
+   // For independently edited players, add missing fields but keep custom values.
+   const oldSeed=match.source===source;
+   for(const [key,value] of Object.entries(p)){
+    if(key==='source'&&!oldSeed)continue;
+    if(key==='name'&&!oldSeed)continue;
+    if(oldSeed||match[key]===undefined||match[key]===null||match[key]===''){
+     if(match[key]!==value){match[key]=value;changed=true;}
+    }
+   }
   }else{x.players.push({...p});changed=true;}
  }
- // Remove only outdated duplicate seed placeholders, never user-authored records.
- const knownNumbers=new Set(illinois2012Roster.map(p=>String(p.number)));
- x.players=x.players.filter(p=>!(['Robin Summers'].includes(p.name)&&String(p.number)==='1'&&p.source?.includes('Roster History')));
- return changed;
+ // Mark import complete. This prevents a future refresh from overwriting game-night edits.
+ x.illinoisRosterImportVersion=version;
+ return true;
 }
-
 const illinoisPositions=['Guard','Wing','Big'];
 function illinoisGroup(p){const v=String(p.planningGroup||p.group||p.pos||p.position||'').toUpperCase().trim();if(v==='GUARD'||v==='PG'||v==='SG')return 'Guard';if(v==='WING'||v==='SF')return 'Wing';if(v==='BIG'||v==='PF'||v==='C')return 'Big';return ''}
 function illinoisBase(x){return 2011}
