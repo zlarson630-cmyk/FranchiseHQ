@@ -126,32 +126,46 @@ function illinoisSnapshot(x) {
  </section>`;
 }
 function illinoisOutlook(x){
- const years=illinoisYears(x),base=years[0],pool=illinoisPool(x);
- const plan=x.illinoisDepth||{};
- let html='<h2>Illinois · Five-Year Outlook</h2><p class="muted">Three-deep roster planning: Guard, Wing, Big. These are roster groups, not fixed lineup positions. Assign any three eligible players per group for each season; how they fit into your five-man lineup can vary.</p>';
- html+=illinoisEssentialsSummary(x,years)+illinoisEssentialsEditor(x,base);
- html+='<div class="outlook-scroll" role="region" tabindex="0" aria-label="Illinois five-year roster planning board"><div class="outlook-table" style="--outlook-years:5"><div class="outlook-head outlook-position-head">GROUP</div>'+years.map(y=>'<div class="outlook-head">'+y+'–'+String(y+1).slice(2)+'</div>').join('');
+ const years=illinoisYears(x),base=years[0],pool=illinoisPool(x),plan=x.illinoisDepth||{};
+ let html='<h2>Illinois · Five-Year Outlook</h2><p class="muted">Projected roster depth chart · '+base+'–'+(base+4)+'. Football-style player cards with three options per Guard, Wing and Big group. These are roster priorities, not mandatory starters.</p>';
+ html+='<div class="outlook-scroll" role="region" tabindex="0" aria-label="Illinois five-year roster depth chart"><div class="outlook-table" style="--outlook-years:5"><div class="outlook-head outlook-position-head">GROUP</div>'+years.map(y=>'<div class="outlook-head">'+y+'–'+String(y+1).slice(2)+'</div>').join('');
  for(const group of illinoisPositions){
-  html+='<div class="outlook-year">'+group+'</div>';
+  html+='<div class="outlook-year">'+esc(group)+'</div>';
   for(const yr of years){
-   const key=yr+'-'+group;
-   const choices=pool.filter(p=>illinoisGroup(p)===group&&illinoisEligible(p,yr,base));
-   const picked=plan[key]||{};
-   const saved=[picked['1']||picked.starter,picked['2']||picked.backup,picked['3']].map(name=>choices.some(p=>p.name===name)?name:'');
-   const assigned=new Set(saved.filter(Boolean));
-   const defaults=choices.filter(p=>!assigned.has(p.name)).sort((a,b)=>(Number(illinoisRating(b,yr,base))||0)-(Number(illinoisRating(a,yr,base))||0));
-   let d=0;
-   const effective=saved.map(name=>name||defaults[d++]?.name||'');
-   const select=(slot,name)=>'<label style="display:block;margin:8px 0"><small>Depth '+slot+'</small><select style="width:100%;max-width:100%" onchange="illinoisSetDepth('+yr+',\''+group+'\',\''+slot+'\',this.value)"><option value="">Open</option>'+choices.map(p=>'<option value="'+esc(p.name)+'" '+(name===p.name?'selected':'')+'>'+esc(p.name)+' · '+esc(illinoisPos(p))+'</option>').join('')+'</select></label>';
+   const candidates=pool.filter(p=>illinoisGroup(p)===group&&illinoisEligible(p,yr,base));
+   const key=yr+'-'+group,picks=plan[key]||{};
+   const stored=[picks['1']||picks.starter||'',picks['2']||picks.backup||'',picks['3']||''];
+   const taken=new Set(stored.filter(Boolean));
+   const available=candidates.filter(p=>!taken.has(p.name)).sort((a,b)=>(illinoisRating(b,yr,base)||0)-(illinoisRating(a,yr,base)||0));
+   let offset=0;
+   const names=stored.map(n=>n||available[offset++]?.name||'');
+   const choice=slot=>candidates.find(p=>p.name===names[slot-1]);
+   const yearLabel=p=>{const raw=String(p.year||'').toLowerCase(),stage=/freshman|\bfr\b/.test(raw)?0:/sophomore|\bso\b/.test(raw)?1:/junior|\bjr\b/.test(raw)?2:/senior|\bsr\b/.test(raw)?3:null;return stage===null?'Class unknown':(['FR','SO','JR','SR'][Math.min(3,stage+yr-base)]+(raw.includes('rs')?' · RS':''));};
+   const identity=p=>illinoisPos(p)+(p.number?' · #'+p.number:'')+' · '+yearLabel(p);
+   const edit=slot=>'<div class="depth-edit" id="illinois-depth-'+yr+'-'+group+'-'+slot+'"><select aria-label="Select '+esc(group)+' option '+slot+' for '+yr+'" onchange="illinoisSetDepth('+yr+',\''+group+'\',\''+slot+'\',this.value)"><option value="">Open</option>'+candidates.map(p=>'<option value="'+esc(p.name)+'" '+(names[slot-1]===p.name?'selected':'')+'>'+esc(p.name)+' · '+esc(illinoisPos(p))+'</option>').join('')+'</select></div>';
+   const top=choice(1),topOvr=top?illinoisRating(top,yr,base):null;
    html+='<div class="outlook-cell">';
-   for(let n=0;n<3;n++){
-    const p=choices.find(p=>p.name===effective[n]),rating=p?illinoisRating(p,yr,base):null;
-    html+='<div class="mini-card" style="margin-bottom:4px;'+(!p?'opacity:.6;':'')+'"><small>'+group+' · '+(n+1)+'</small><div class="mini-name">'+(p?esc(p.name):'Open')+'</div>'+(p?'<small>'+esc(illinoisPos(p))+(p.number?' · #'+esc(p.number):'')+'</small>':'')+(rating!==null&&rating!==undefined?'<span class="rating-bubble" style="background:'+ratingColor(rating,x)+'">'+esc(rating)+'</span>':p?'<small>OVR not recorded</small>':'')+'</div>'+select(n+1,effective[n]);
+   html+=top?'<div class="mini-card">'+(topOvr!==null?'<span class="rating-bubble" style="background:'+ratingColor(topOvr,x)+'">'+esc(topOvr)+'</span>':'')+'<small>'+esc(identity(top))+'</small><div class="mini-name">'+esc(top.name)+'</div><div class="dev-mark">◆ '+esc(top.potential||'Unknown')+' Potential</div><small>'+(yr===base?'Recorded OVR':'Projected OVR')+'</small></div>':'<div class="mini-card" style="opacity:.45"><small>'+esc(group)+' · 1</small><div class="mini-name">Open</div><small>Unassigned</small></div>';
+   html+='<button type="button" class="depth-change" onclick="illinoisToggleDepth('+yr+',\''+group+'\',\'1\')">Change first option ▾</button>'+edit(1);
+   for(const slot of [2,3]){
+    const p=choice(slot),ovr=p?illinoisRating(p,yr,base):null;
+    html+='<button type="button" class="backup-line" onclick="illinoisToggleDepth('+yr+',\''+group+'\',\''+slot+'\')"><span style="color:#75658d;font-size:10px">'+slot+'</span><span class="backup-person"><span class="backup-name">'+esc(p?p.name:'Select option '+slot)+'</span>'+(p?'<span class="backup-class">'+esc(identity(p))+'</span>':'')+'</span>'+(ovr!==null?'<span class="backup-rating" style="background:'+ratingColor(ovr,x)+'">'+esc(ovr)+'</span>':'')+(p?'<span class="backup-dev" title="'+esc(p.potential||'Unknown')+' potential">◆</span>':'')+'</button>'+edit(slot);
    }
    html+='</div>';
   }
  }
- return html+'</div></div><div class="card"><h3>Roster construction, not a lineup lock</h3><p class="muted">Guard includes PG/SG; Wing includes SF; Big includes PF/C. These are initial groupings based on the source roster positions. Three players per group are shown, but the lineup can use any combination. Rankings shown automatically until you select your own depth order. No future ratings or eligibility are invented.</p><button class="primary" onclick="editItem(\'players\',-1)">+ Add player</button> <button onclick="changeTab(\'Roster Snapshot\')">Roster snapshot</button></div>';
+ html+='</div></div><p class="outlook-note">The Washington football card style is reused here. OVR projections use Illinois potential ceilings, not football development traits. Class years and future eligibility are estimates.</p>';
+ html+=illinoisEssentialsSummary(x,years);
+ html+='<details class="card"><summary style="cursor:pointer;font-weight:800">Evaluate True PG / Post Stopper skills</summary>'+illinoisEssentialsEditor(x,base)+'</details>';
+ html+='<div class="card"><h3>Roster construction, not a lineup lock</h3><p class="muted">Three-deep Guard, Wing and Big options. The featured card is your top roster priority, not necessarily a starter. Actual lineup combinations remain flexible.</p><button class="primary" onclick="editItem(\'players\',-1)">+ Add player</button> <button onclick="changeTab(\'Roster Snapshot\')">Roster snapshot</button></div>';
+ return html;
+}
+function illinoisToggleDepth(yr,group,slot){
+ const el=document.getElementById('illinois-depth-'+yr+'-'+group+'-'+slot);
+ if(!el)return;
+ const open=!el.classList.contains('open');
+ document.querySelectorAll('[id^="illinois-depth-"].open').forEach(node=>node.classList.remove('open'));
+ if(open){el.classList.add('open');el.querySelector('select')?.focus();}
 }
 function illinoisSetDepth(year,group,slot,name){
  const x=f();if(x.id!=='illinois-basketball-2010')return;
