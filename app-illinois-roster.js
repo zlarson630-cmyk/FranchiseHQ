@@ -52,8 +52,8 @@ function illinoisEligible(p,year,base){
 // Illinois-only planning estimates; not the game's actual progression formula.
 // Grade caps never reduce an already-recorded overall rating.
 const illinoisProgression={
- 'A+':[4,99],'A':[4,99],'A-':[3,95],
- 'B+':[3,92],'B':[2,89],'B-':[2,86],
+ 'A+':[4,99],'A':[4,95],'A-':[3,90],
+ 'B+':[3,89],'B':[2,85],'B-':[2,80],
  'C+':[2,79],'C':[1,75],'C-':[1,70],
  'D+':[1,69],'D':[1,65],'D-':[0,60],'F':[0,59]
 };
