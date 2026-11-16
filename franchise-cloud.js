@@ -27,6 +27,11 @@
     // Apply newly released, versioned Illinois roster only after loading the
     // latest cloud payload, so an older cloud save cannot hide the new roster.
     if(typeof seedIllinoisCurrentRoster==="function"&&seedIllinoisCurrentRoster())save();
+    // Refresh documented Illinois history from release data after cloud adoption;
+    // optimistic versioning prevents silently overwriting another device.
+    if(typeof seedIllinoisHistory==="function"){
+      const before=localPayload();seedIllinoisHistory();if(localPayload()!==before)save();
+    }
     render();
   }
   const allowed = a => Array.isArray(a) && a.length > 0 && a.every(x => x && x.id && x.name && Array.isArray(x.players));
