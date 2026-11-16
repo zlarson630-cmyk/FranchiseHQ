@@ -136,4 +136,93 @@ function seedIllinoisHistory(){
  // The legacy source archive is a frozen pre-NCAA snapshot and still says Baylor pending.
  flag('legacy-2012-checkpoint','Older Illinois Legacy narrative stops before NCAA opener','Baylor pending; Illinois 24–10','Baylor final 50–41; Illinois 24–11 in TXT 05–07');
  if(season&&season.losses!==11)flag('illinois-2012-season-total','2011–12 historical season record not reconciled',season.wins+'–'+season.losses,'24–11 after Baylor defeat');
+ seedIllinois2012Offseason(x, append);
+}
+
+const illinoisOffseasonRecord = 'docs/illinois/2012-13/offseason-record.txt';
+const illinoisAwardsRecord = 'docs/illinois/2011-12/awards.txt';
+const illinoisRosterRatings = 'docs/illinois/2012-13/roster-ratings.txt';
+
+const illinois2012SigningClass = [
+ {"name":"Sylvester Curry","stars":4,"nationalRank":39,"notes":"Highest-ranked signee. B+ potential and 80 defensive rebounding on his first college card. Adds a wing behind Defares.","pos":"SF","overall":76,"hometown":"Buena Park, CA"},
+ {"name":"Marquise Cambridge","stars":4,"nationalRank":46,"notes":"A- potential, 92 speed, 87 handling and 80 passing make him the class’s strongest developmental point guard.","pos":"PG","overall":73,"hometown":"Queens, NY"},
+ {"name":"Jazz Modrovich","stars":4,"nationalRank":47,"notes":"B+ potential with 86 defense and 86 free throws. Adds guard depth and takes over jersey No. 24.","pos":"SG","overall":74,"hometown":"West Covina, CA"},
+ {"name":"Franklin Haynes","stars":4,"nationalRank":58,"notes":"77 OVR, the highest opening rating among the five signees. His 85 three-point rating and 86 steals give him an immediate role at shooting guard.","pos":"SG","overall":77,"hometown":"St. Louis, MO"},
+ {"name":"Dennis Carmichael","stars":3,"nationalRank":425,"notes":"Developmental 6-foot-10 forward with 74 standing dunk and 73 offensive rebounding. The lone frontcourt signee.","pos":"PF","overall":66,"hometown":"St. Petersburg, FL"}
+];
+
+function seedIllinois2012Offseason(x, append) {
+ const departures = [
+  {"name":"Robin Summers","number":"1","pos":"PG","year":"SR","overall":86,"status":"Drafted","bio":"5'11\", 175 lb, Boise, ID","stats":"7.6 PPG, 1.9 RPG, 3.6 APG, 1.0 SPG, 0.3 BPG. Career highs: 20 points and 10 assists.","draftSource":"Player Card Bio (21-07-58)"},
+  {"name":"SG #24","number":"24","pos":"SG","year":"RS SR","overall":84,"status":"Drafted","bio":"6'3\", 200 lb, Los Angeles, CA","stats":"11.6 PPG, 3.7 RPG, 1.9 APG, 1.2 SPG, 0.0 BPG. Career highs: 29 points and 11 rebounds.","draftSource":"Player Card Bio (21-08-03)"},
+  {"name":"Shema Mattox","number":"43","pos":"C","year":"SR","overall":89,"status":"Drafted","bio":"7'1\", 263 lb, Fresno, CA","stats":"16.9 PPG, 6.1 RPG and 1.4 APG on the final awards screen. Second-Team All-Big Ten and Big Ten title game Player of the Game.","draftSource":"Dynasty owner confirmation. Graduations screen (21-05-22) shows entry."},
+  {"name":"Solomon Nelson","number":"50","pos":"C","year":"JR","overall":85,"status":"Drafted","bio":"7'3\", 282 lb, Orange, CA","stats":"8.6 PPG, 3.3 RPG, 0.3 APG, 0.3 SPG, 0.2 BPG. Career highs: 26 points and 12 rebounds. 2009–10 Freshman All-Conference.","draftSource":"Player Card Bio (21-09-05)"},
+  {"name":"Laramie Osimani","number":"41","pos":"PF","year":"SO","overall":80,"status":"Transferred to Valparaiso","bio":"6′11″, 219 lb, Chicago, IL","stats":"2.6 PPG and 1.9 RPG in 2011–12.","destination":"Valparaiso"},
+  {"name":"C #54","number":"54","pos":"C","year":"RS SR","overall":80,"status":"Graduated","bio":"7′1″, 244 lb, Joliet, IL"}
+ ];
+ for (const departure of departures) {
+  const prior = x.illinois2012Departures.find(p => String(p.number) === departure.number);
+  if (prior) Object.assign(prior, departure);
+  else x.illinois2012Departures.push(departure);
+  const id = 'illinois-2012-departure-player-' + departure.number;
+  const person = x.historicalPlayers.find(p => p.name === departure.name);
+  const profile = {id, name:departure.name, team:'Illinois', season:'2011–12', role:departure.pos + ' · No. ' + departure.number, position:departure.pos};
+  if (!person) x.historicalPlayers.push(profile);
+  const record = person || profile;
+  record.overall = departure.overall;
+  record.biography ||= departure.bio + '.';
+  record.history ||= [];
+  if (!record.history.some(h => h.id === id)) record.history.push({id, years:'2012', team:'Illinois', role:departure.status, notes:[departure.stats,departure.draftSource].filter(Boolean).join(' ')});
+  if (departure.destination) record.transferTo = departure.destination;
+ }
+ const mattox = x.historicalPlayers.find(p => p.id === 'illinois-shema-mattox');
+ mattox.awards ||= [];
+ if (!mattox.awards.some(a => a.name === 'Second-Team All-Big Ten' && a.season === '2011–12')) {
+  mattox.awards.push({season:'2011–12', name:'Second-Team All-Big Ten', description:'16.9 PPG, 6.1 RPG and 1.4 APG on the final awards screen.'});
+ }
+ const departureEvent = x.universeHistory.find(h => h.id === 'illinois-history-2012-departures');
+ Object.assign(departureEvent,{
+  title:'Four Illini drafted; Osimani transfers to Valparaiso',
+  body:'Robin Summers (86 OVR), SG #24 (84), Shema Mattox (89) and Solomon Nelson (85) were drafted. NBA destinations and picks are unrecorded. Laramie Osimani transferred to Valparaiso and C #54 graduated.',
+  source:illinoisOffseasonRecord
+ });
+ append('universeHistory',[
+  {"id":"illinois-2012-awards-1","year":"2011–12","type":"Award","title":"Travis Wooden, Valparaiso · Mid-Major Player of the Year","body":"Sr. C, 83 OVR. 22.4 PPG, 8.9 RPG, 0.8 APG, 1.6 SPG, 2.4 BPG."},
+  {"id":"illinois-2012-awards-2","year":"2011–12","type":"Award","title":"Coach CLEM, Clemson · National Coach of the Year","body":"465–288 career, one championship, A− overall."},
+  {"id":"illinois-2012-awards-3","year":"2011–12","type":"Award","title":"Ronald Fanning, North Carolina · National Defensive Player of the Year","body":"Jr. PF, 85 OVR. 14.4 PPG, 8.4 RPG, 1.3 APG, 0.8 SPG, 2.1 BPG."},
+  {"id":"illinois-2012-awards-4","year":"2011–12","type":"Award","title":"Martynas Guzman, Cincinnati · National Freshman of the Year","body":"Fr. SG, 79 OVR. 11.9 PPG, 3.7 RPG, 2.8 APG, 1.3 SPG, 0.3 BPG."},
+  {"id":"illinois-2012-awards-5","year":"2011–12","type":"Award","title":"Indiana · Big Ten regular-season champion","body":"29–5 overall, 15–3 Big Ten. Illinois won the separate conference tournament."},
+  {"id":"illinois-2012-awards-6","year":"2011–12","type":"Award","title":"Coach IND, Indiana · Big Ten Coach of the Year","body":"517–278 career and A overall."},
+  {"id":"illinois-2012-awards-7","year":"2011–12","type":"Award","title":"Deron Bruce, Penn State · Big Ten Player of the Year","body":"Sr. C, 85 OVR. 23.6 PPG, 8.6 RPG, 0.4 APG, 1.2 SPG, 2.0 BPG."},
+  {"id":"illinois-2012-awards-8","year":"2011–12","type":"Award","title":"Mark Drake, Wisconsin · Big Ten Freshman of the Year","body":"Fr. PG, 79 OVR. 9.1 PPG, 2.7 RPG, 4.1 APG, 1.4 SPG, 0.0 BPG."},
+  {id:'illinois-2012-all-conference-teams',year:'2011–12',type:'Awards',title:'Mattox makes second-team All-Big Ten',body:'Shema Mattox closed his Illinois career at 16.9 PPG, 6.1 RPG and 1.4 APG on the second-team award screen. The awards file includes the national and Big Ten honor teams.',source:illinoisAwardsRecord},
+  {id:'illinois-2012-coaching-carousel',year:'2012',type:'Coaching',title:'Weber stays at Illinois as Duke changes coaches',body:'Bruce Weber declined South Carolina’s two-year offer and retained Coach ARST and Maury Francis. Duke’s coach retired and Old Dominion’s head coach replaced him. South Carolina hired the former Kent State head coach.',source:illinoisOffseasonRecord},
+  {id:'illinois-2012-recruiting',year:'2012',type:'Recruiting',title:'Illinois signs the No. 15 recruiting class',body:'Sylvester Curry, Marquise Cambridge, Jazz Modrovich and Franklin Haynes signed as four-stars. Dennis Carmichael, a three-star forward, rounded out the group.',source:illinoisOffseasonRecord}
+ ]);
+ const weber = x.coachIndex.find(c => c.id === 'illinois-bruce-weber');
+ weber.offense = 'Motion';
+ weber.defense = 'Man-to-man primary; 2–3 secondary';
+ weber.notes = '2012 coach card: 307–153 career, age 56, 9 years displayed, A overall, 0 national titles. Declined South Carolina and stayed at Illinois. Recruiting priorities: shooting and athleticism.';
+ const finalSeason = weber.history?.find(s => s.years === '2011–12');
+ if (finalSeason) finalSeason.postseason = 'Big Ten Tournament champions; NCAA first round';
+ const staff = [
+  {id:'illinois-coach-arst', name:'Coach ARST', role:'Assistant Coach', team:'Illinois', season:'2012–13', notes:'Retained in 2012. B overall, B teaching, B+ charisma. Coach card: 212–222 career, age 53.'},
+  {id:'illinois-maury-francis', name:'Maury Francis', role:'Assistant Coach', team:'Illinois', season:'2012–13', notes:'Retained in 2012. B overall, A− charisma, A+ discipline. Coach card: age 42.'}
+ ];
+ x.staff = Array.isArray(x.staff) ? x.staff : [];
+ for (const coach of staff) {
+  const match = x.staff.find(c => c.id === coach.id || (coach.id === 'illinois-coach-arst' ? /\barst\b/i.test(c.name) : /\bfrancis\b/i.test(c.name)));
+  if (match) Object.assign(match, {season:coach.season, notes:match.notes || coach.notes});
+  else x.staff.push(coach);
+ }
+ append('mediaPersonalities',[{id:'illinois-firebird-desk',name:'Firebird News Desk',role:'College basketball',publicationId:'firebird'}]);
+ append('scribeArticles',[
+  {id:'illinois-firebird-2012-carousel',date:'2012',category:'Coaching',publicationId:'firebird',writerId:'illinois-firebird-desk',headline:'Weber stays put as Duke turns the page',deck:'Illinois keeps its coaching staff after South Carolina’s offer. Duke hires Old Dominion’s head coach following a retirement.',body:'Bruce Weber turned down a two-year offer from South Carolina after a 24–11 season and a Big Ten Tournament title. He returns to Champaign with Coach ARST and Maury Francis still on staff.\n\nThe vacancy chain stretched beyond the SEC. South Carolina hired the Kent State head coach, while Duke replaced its retiring coach with Old Dominion’s head coach. Old Dominion turned to Chattanooga for its replacement.'},
+  {id:'illinois-firebird-2012-class',date:'2012',category:'Recruiting',publicationId:'firebird',writerId:'illinois-firebird-desk',headline:'No. 15 class gives Illinois a new backcourt',deck:'Four four-stars arrive as Illinois replaces four NBA draftees and two other departures.',body:'Franklin Haynes opens at 77 overall with an 85 three-point rating. Sylvester Curry is the highest-ranked signee, and Marquise Cambridge brings A− potential at point guard. Jazz Modrovich adds perimeter defense.\n\nThe five-man group leans toward the perimeter. Dennis Carmichael is its only true frontcourt addition. With Shema Mattox and Solomon Nelson drafted and Laramie Osimani headed to Valparaiso, the Illini will need to find reliable minutes inside.'}
+ ]);
+}
+
+function illinoisSigningClassCard() {
+ const signings = illinois2012SigningClass.map(p => '<li><strong>' + esc(p.name) + '</strong> · ' + esc(p.pos) + ' · ' + p.stars + ' stars · No. ' + p.nationalRank + ' nationally · ' + p.overall + ' OVR<p>' + esc(p.notes) + '</p></li>').join('');
+ return '<section class="card"><h3>2012 signing class · No. 15 nationally</h3><ul>' + signings + '</ul><p><a href="' + illinoisOffseasonRecord + '">Full offseason record (TXT)</a></p></section>';
 }

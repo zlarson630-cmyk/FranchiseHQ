@@ -1,0 +1,148 @@
+Illinois Fighting Illini | 2012–13 opening roster
+College Hoops 2K8 | 16 players | 15 detailed attribute cards
+Sources: Roster screens at 21-47-25 and 21-47-36 on 2026-11-15, plus the player-card screenshots listed below.
+OVR and class come from the final roster screens. Those screens include redshirt labels.
+Ashley Eaton's final roster row confirms 79 OVR. His individual 2012–13 attribute card is absent from this batch.
+
+No. | Player | Pos | Class | OVR | POT | Height | Weight (lb) | Hometown
+20 | Mekel Defares | SF | RS SR | 83 | C+ | 6'6" | 211 | Queens, NY
+42 | Vern Leadbetter | PF | JR | 80 | C | 6'8" | 222 | Florissant, MO
+15 | Parker Jefferies | PG | SO | 79 | C | 6'1" | 187 | Miami Beach, FL
+3 | Ashley Eaton | PG | SO | 79 | — | 5'6" | 181 | Memphis, TN
+52 | Cortez Simpson | PF | SO | 77 | B- | 6'8" | 199 | Memphis, TN
+25 | Franklin Haynes | SG | FR | 77 | C | 6'5" | 209 | St. Louis, MO
+30 | Sylvester Curry | SF | FR | 76 | B+ | 6'6" | 202 | Buena Park, CA
+24 | Jazz Modrovich | SG | FR | 74 | B+ | 6'2" | 188 | West Covina, CA
+2 | Marquise Cambridge | PG | FR | 73 | A- | 6'2" | 192 | Queens, NY
+35 | Christano Timba | SG | RS JR | 72 | D | 6'4" | 223 | Cameroon
+45 | Sammy Cooperwood | PF | SR | 71 | C | 6'8" | 227 | Montgomery, AL
+31 | Fabrice Louh | SF | RS FR | 70 | C- | 6'6" | 209 | Cameroon
+44 | Monty Peciukas | C | RS SO | 67 | C- | 6'11" | 192 | Bronx, NY
+43 | Dennis Carmichael | PF | FR | 66 | C- | 6'10" | 220 | St. Petersburg, FL
+23 | Tyler Lewandowski | PG | RS FR | 57 | D | 6'4" | 201 | Scottsdale, AZ
+22 | Ronald Shavies | SG | FR | 52 | F | 6'5" | 201 | Bronx, NY
+
+Player-card attributes (numeric game values)
+
+#20 Mekel Defares | Screenshot 2026-11-15 21-48-41.png
+close 92 | medium 78 | three point 87 | free throw 76 | layup 88
+shoot dribble 75 | shoot traffic 84 | dunk 63 | dunk standing 0 | clutch 67
+handling 82 | passing 69 | low offense 70 | low defense 65 | defense 86
+blocks 63 | steals 83 | offensive rebound 65 | defensive rebound 72 | speed 90
+quickness 93 | vertical 92 | strength 71 | hustle 81 | stamina 85
+durability 94 | foul 67 | consistency 76 | offensive awareness 80 | defensive awareness 65
+
+#42 Vern Leadbetter | Screenshot 2026-11-15 21-48-53.png
+close 92 | medium 70 | three point 75 | free throw 78 | layup 87
+shoot dribble 61 | shoot traffic 81 | dunk 82 | dunk standing 72 | clutch 73
+handling 58 | passing 61 | low offense 78 | low defense 80 | defense 72
+blocks 78 | steals 73 | offensive rebound 88 | defensive rebound 81 | speed 73
+quickness 77 | vertical 77 | strength 69 | hustle 73 | stamina 82
+durability 93 | foul 51 | consistency 76 | offensive awareness 69 | defensive awareness 79
+
+#15 Parker Jefferies | Screenshot 2026-11-15 21-48-55.png
+close 80 | medium 77 | three point 87 | free throw 72 | layup 75
+shoot dribble 82 | shoot traffic 72 | dunk 78 | dunk standing 0 | clutch 66
+handling 84 | passing 75 | low offense 58 | low defense 52 | defense 83
+blocks 51 | steals 79 | offensive rebound 62 | defensive rebound 65 | speed 86
+quickness 86 | vertical 69 | strength 65 | hustle 71 | stamina 88
+durability 91 | foul 61 | consistency 78 | offensive awareness 73 | defensive awareness 79
+
+#3 Ashley Eaton | Screenshot 2026-11-15 21-47-25.png
+Overall rating only.
+
+#52 Cortez Simpson | Screenshot 2026-11-15 21-48-57.png
+close 84 | medium 73 | three point 56 | free throw 81 | layup 80
+shoot dribble 67 | shoot traffic 83 | dunk 70 | dunk standing 56 | clutch 52
+handling 62 | passing 58 | low offense 85 | low defense 85 | defense 67
+blocks 70 | steals 59 | offensive rebound 77 | defensive rebound 85 | speed 74
+quickness 76 | vertical 78 | strength 64 | hustle 93 | stamina 73
+durability 90 | foul 78 | consistency 69 | offensive awareness 71 | defensive awareness 69
+
+#25 Franklin Haynes | Screenshot 2026-11-15 21-49-00.png
+close 86 | medium 71 | three point 85 | free throw 72 | layup 77
+shoot dribble 81 | shoot traffic 78 | dunk 65 | dunk standing 0 | clutch 70
+handling 79 | passing 64 | low offense 62 | low defense 57 | defense 82
+blocks 68 | steals 86 | offensive rebound 63 | defensive rebound 73 | speed 86
+quickness 83 | vertical 77 | strength 70 | hustle 69 | stamina 86
+durability 85 | foul 55 | consistency 78 | offensive awareness 63 | defensive awareness 73
+
+#30 Sylvester Curry | Screenshot 2026-11-15 21-49-03.png
+close 83 | medium 79 | three point 68 | free throw 74 | layup 80
+shoot dribble 70 | shoot traffic 83 | dunk 77 | dunk standing 53 | clutch 58
+handling 73 | passing 62 | low offense 63 | low defense 70 | defense 75
+blocks 71 | steals 72 | offensive rebound 71 | defensive rebound 80 | speed 80
+quickness 77 | vertical 77 | strength 68 | hustle 79 | stamina 84
+durability 82 | foul 54 | consistency 67 | offensive awareness 74 | defensive awareness 68
+
+#24 Jazz Modrovich | Screenshot 2026-11-15 21-49-05.png
+close 87 | medium 73 | three point 71 | free throw 86 | layup 69
+shoot dribble 77 | shoot traffic 84 | dunk 56 | dunk standing 1 | clutch 72
+handling 77 | passing 71 | low offense 65 | low defense 63 | defense 86
+blocks 56 | steals 64 | offensive rebound 68 | defensive rebound 75 | speed 85
+quickness 85 | vertical 72 | strength 64 | hustle 69 | stamina 84
+durability 83 | foul 74 | consistency 70 | offensive awareness 63 | defensive awareness 71
+
+#2 Marquise Cambridge | Screenshot 2026-11-15 21-49-06.png
+close 81 | medium 71 | three point 70 | free throw 69 | layup 70
+shoot dribble 78 | shoot traffic 77 | dunk 46 | dunk standing 2 | clutch 56
+handling 87 | passing 80 | low offense 60 | low defense 51 | defense 80
+blocks 55 | steals 73 | offensive rebound 51 | defensive rebound 66 | speed 92
+quickness 91 | vertical 76 | strength 64 | hustle 76 | stamina 85
+durability 76 | foul 70 | consistency 65 | offensive awareness 65 | defensive awareness 66
+
+#35 Christano Timba | Screenshot 2026-11-15 21-49-08.png
+close 84 | medium 77 | three point 66 | free throw 73 | layup 81
+shoot dribble 78 | shoot traffic 74 | dunk 61 | dunk standing 0 | clutch 76
+handling 80 | passing 70 | low offense 64 | low defense 56 | defense 80
+blocks 48 | steals 78 | offensive rebound 64 | defensive rebound 73 | speed 87
+quickness 81 | vertical 78 | strength 61 | hustle 65 | stamina 87
+durability 82 | foul 72 | consistency 65 | offensive awareness 65 | defensive awareness 64
+
+#45 Sammy Cooperwood | Screenshot 2026-11-15 21-49-10.png
+close 88 | medium 68 | three point 62 | free throw 56 | layup 62
+shoot dribble 60 | shoot traffic 89 | dunk 77 | dunk standing 58 | clutch 64
+handling 56 | passing 53 | low offense 68 | low defense 74 | defense 66
+blocks 78 | steals 72 | offensive rebound 78 | defensive rebound 79 | speed 70
+quickness 70 | vertical 75 | strength 68 | hustle 75 | stamina 72
+durability 85 | foul 79 | consistency 66 | offensive awareness 71 | defensive awareness 66
+
+#31 Fabrice Louh | Screenshot 2026-11-15 21-49-12.png
+close 85 | medium 69 | three point 62 | free throw 64 | layup 68
+shoot dribble 69 | shoot traffic 75 | dunk 73 | dunk standing 0 | clutch 67
+handling 71 | passing 56 | low offense 64 | low defense 64 | defense 79
+blocks 57 | steals 72 | offensive rebound 72 | defensive rebound 71 | speed 75
+quickness 73 | vertical 73 | strength 68 | hustle 80 | stamina 80
+durability 77 | foul 56 | consistency 66 | offensive awareness 66 | defensive awareness 73
+
+#44 Monty Peciukas | Screenshot 2026-11-15 21-49-15.png
+close 82 | medium 68 | three point 52 | free throw 63 | layup 62
+shoot dribble 57 | shoot traffic 81 | dunk 63 | dunk standing 62 | clutch 55
+handling 53 | passing 56 | low offense 76 | low defense 65 | defense 65
+blocks 52 | steals 63 | offensive rebound 79 | defensive rebound 76 | speed 67
+quickness 60 | vertical 61 | strength 72 | hustle 57 | stamina 67
+durability 79 | foul 73 | consistency 64 | offensive awareness 71 | defensive awareness 73
+
+#43 Dennis Carmichael | Screenshot 2026-11-15 21-49-19.png
+close 83 | medium 66 | three point 57 | free throw 63 | layup 56
+shoot dribble 62 | shoot traffic 76 | dunk 61 | dunk standing 74 | clutch 57
+handling 48 | passing 50 | low offense 74 | low defense 72 | defense 70
+blocks 72 | steals 60 | offensive rebound 73 | defensive rebound 75 | speed 68
+quickness 70 | vertical 65 | strength 62 | hustle 77 | stamina 71
+durability 73 | foul 71 | consistency 56 | offensive awareness 68 | defensive awareness 64
+
+#23 Tyler Lewandowski | Screenshot 2026-11-15 21-49-21.png
+close 75 | medium 68 | three point 57 | free throw 61 | layup 64
+shoot dribble 77 | shoot traffic 64 | dunk 16 | dunk standing 0 | clutch 49
+handling 74 | passing 67 | low offense 45 | low defense 43 | defense 76
+blocks 38 | steals 57 | offensive rebound 56 | defensive rebound 57 | speed 81
+quickness 78 | vertical 69 | strength 48 | hustle 70 | stamina 76
+durability 72 | foul 66 | consistency 60 | offensive awareness 69 | defensive awareness 62
+
+#22 Ronald Shavies | Screenshot 2026-11-15 21-49-23.png
+close 71 | medium 59 | three point 54 | free throw 54 | layup 50
+shoot dribble 73 | shoot traffic 70 | dunk 40 | dunk standing 0 | clutch 59
+handling 68 | passing 66 | low offense 51 | low defense 46 | defense 79
+blocks 44 | steals 64 | offensive rebound 50 | defensive rebound 63 | speed 81
+quickness 76 | vertical 58 | strength 56 | hustle 54 | stamina 75
+durability 67 | foul 68 | consistency 52 | offensive awareness 56 | defensive awareness 50
