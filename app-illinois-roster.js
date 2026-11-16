@@ -49,7 +49,23 @@ function illinoisEligible(p,year,base){
  const stage=/freshman|\bfr\b/.test(raw)?0:/sophomore|\bso\b/.test(raw)?1:/junior|\bjr\b/.test(raw)?2:/senior|\bsr\b/.test(raw)?3:null;
  return stage===null?year===base:stage+(year-base)<=3;
 }
-function illinoisRating(p,year,base){return p.source==='archive'?null:projectedOverall(p,year,base)}
+// Illinois-only planning estimates; not the game's actual progression formula.
+// Grade caps never reduce an already-recorded overall rating.
+const illinoisProgression={
+ 'A+':[4,99],'A':[4,99],'A-':[3,95],
+ 'B+':[3,92],'B':[2,89],'B-':[2,86],
+ 'C+':[2,83],'C':[1,78],'C-':[1,73],
+ 'D+':[1,69],'D':[1,65],'D-':[0,60],'F':[0,59]
+};
+function illinoisRating(p,year,base){
+ if(p.source==='archive'||p.overall===undefined||p.overall===null||p.overall==='')return null;
+ const current=Number(p.overall);
+ if(!Number.isFinite(current))return null;
+ const years=Math.max(0,year-base);
+ const profile=illinoisProgression[String(p.potential||'').toUpperCase().trim()];
+ if(!profile||!years)return current;
+ return Math.min(99,Math.max(current,profile[1]),current+years*profile[0]);
+}
 function illinoisNameButton(p){return p.source==='roster'?'<button class="profile-link" onclick="openPlayer('+p.rosterIndex+')">'+esc(p.name)+'</button>':'<strong>'+esc(p.name)+'</strong>'}
 function illinoisSnapshot(x){
  const pool=illinoisPool(x),years=illinoisYears(x),base=years[0];
@@ -67,7 +83,7 @@ function illinoisSnapshot(x){
   }
   if(!group.length)html+='<div class="snapshot-player"><small class="muted">No '+pos+' recorded yet</small></div>'+years.map(()=>'<div class="snapshot-rating-cell"><span class="snapshot-empty">—</span></div>').join('');
  }
- html+='</div></div><p class="muted">? = rating not recorded. — = no confirmed player for that season. Future ratings for roster players are estimates, not game results. Archived players are not assumed to return in later seasons.</p><button class="primary" onclick="editItem(\'players\',-1)">+ Add Illinois player</button>';
+ html+='</div></div><p class="muted">? = rating not recorded. — = no confirmed player for that season. Future ratings are potential-capped planning estimates, not game results. Archived players are not assumed to return in later seasons.</p><button class="primary" onclick="editItem(\'players\',-1)">+ Add Illinois player</button>';
  return html;
 }
 function illinoisOutlook(x){
