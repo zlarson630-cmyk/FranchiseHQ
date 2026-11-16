@@ -129,6 +129,7 @@ function seedIllinoisHistory(){
   cable.awards=Array.isArray(cable.awards)?cable.awards:[];
   for(const award of awards)if(!cable.awards.some(a=>a.season==='2011–12'&&a.name===award))cable.awards.push({season:'2011–12',name:award,description:'College Hoops 2K8 award screen'});
  }
+ flag('bron-braun-request','User-provided name spelling differs from two source transcripts','Braun Cable (request)','Bron Cable (09 and 10 TXT); canon uses Bron');
  if(x.historicalPlayers.some(p=>p.name==='Braun Cable')){
   flag('bron-braun-name','Existing Braun Cable name conflicts with screenshot spelling','Braun Cable','Bron Cable in TXT 09 and 10');
  }
