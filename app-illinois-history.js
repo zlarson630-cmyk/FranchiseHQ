@@ -34,4 +34,40 @@ function seedIllinoisHistory(){
  ];
  const append=(field,records)=>{x[field]=Array.isArray(x[field])?x[field]:[];for(const record of records)if(!x[field].some(y=>y.id===record.id))x[field].push(record)};
  append('historicalSeasons',seasons);append('historicalGames',games);append('historicalPlayers',people);append('coachIndex',[coach]);append('universeHistory',events);
+ // 2012 NCAA opener and departure statuses: screenshots supplied by user.
+ // Keep these in franchise-owned history; do not erase players or overwrite edits.
+ const season=x.historicalSeasons.find(z=>z.id==='illinois-2011-12');
+ if(season && season.wins===24 && season.losses===10){
+   Object.assign(season,{losses:11,status:'completed',recordCheckpoint:'After NCAA Tournament first round',postseason:'Big Ten Tournament champions; NCAA East No. 8 seed; lost to Baylor 41–50 in Round of 64'});
+ }
+ const baylor=x.historicalGames.find(z=>z.id==='illinois-2012-ncaa-baylor');
+ if(baylor && baylor.status==='scheduled'){
+   Object.assign(baylor,{status:'final',teamScore:41,opponentScore:50,result:'L',notes:'Baylor won 50–41; Coverdale scored 18 for Baylor. Illinois ended 24–11.'});
+ }
+ const finish=x.universeHistory.find(z=>z.id==='illinois-history-2012-ncaa');
+ if(finish && finish.title==='Illinois draws No. 9 Baylor in the East Regional'){
+   Object.assign(finish,{title:'Baylor ends Illinois season, 50–41',body:'No. 8 Illinois lost to No. 9 Baylor 50–41 in the East Regional opening round, ending at 24–11. Baylor’s Coverdale scored 18. Illinois had won the Big Ten Tournament.'});
+ }
+ const departures=[
+  {number:'1',name:'Robin Summers',status:'Entered draft'},
+  {number:'24',name:'SG #24',status:'Entered draft'},
+  {number:'43',name:'Shema Mattox',status:'Entered draft'},
+  {number:'50',name:'Solomon Nelson',status:'Entered draft'},
+  {number:'41',name:'Laramie Osimani',status:'Left team'},
+  {number:'54',name:'C #54',status:'Graduated'}
+ ];
+ x.illinois2012Departures=Array.isArray(x.illinois2012Departures)?x.illinois2012Departures:[];
+ for(const d of departures)if(!x.illinois2012Departures.some(z=>String(z.number)===d.number)){
+   x.illinois2012Departures.push({id:'illinois-2012-departure-'+d.number,...d,season:'2011–12',source:'College Hoops 2K8 graduations screen'});
+ }
+ const departureEvent={id:'illinois-history-2012-departures',year:'2012',type:'Roster',title:'Four Illini enter NBA draft',body:'Robin Summers, SG #24, Shema Mattox, and Solomon Nelson entered the draft; Laramie Osimani left the team and C #54 graduated. Entry into the draft is not a confirmed NBA selection.'};
+ if(!x.universeHistory.some(z=>z.id===departureEvent.id))x.universeHistory.push(departureEvent);
+ const co=x.coachIndex.find(z=>z.id==='illinois-bruce-weber');
+ if(co){const h=co.history?.find(z=>z.years==='2011–12');if(h&&h.record==='24–10')h.record='24–11';}
+ // If already manually recorded, do not insert a duplicate game-night entry.
+ x.illinoisGameNight=Array.isArray(x.illinoisGameNight)?x.illinoisGameNight:[];
+ if(!x.illinoisGameNight.some(g=>String(g.opponent||'').toLowerCase()==='baylor'&&g.status==='final')){
+  x.illinoisGameNight.push({id:'illinois-game-2012-baylor',opponent:'Baylor',date:'2012-03-16',stage:'NCAA Tournament · East Regional · Round of 64',illinoisScore:41,opponentScore:50,status:'final',notes:'Baylor’s Coverdale scored 18. Illinois finished 24–11 after winning the Big Ten Tournament.'});
+ }
+
 }
