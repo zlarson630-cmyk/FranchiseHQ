@@ -54,7 +54,7 @@ function illinoisEligible(p,year,base){
 const illinoisProgression={
  'A+':[4,99],'A':[4,99],'A-':[3,95],
  'B+':[3,92],'B':[2,89],'B-':[2,86],
- 'C+':[2,83],'C':[1,78],'C-':[1,73],
+ 'C+':[2,79],'C':[1,75],'C-':[1,70],
  'D+':[1,69],'D':[1,65],'D-':[0,60],'F':[0,59]
 };
 function illinoisRating(p,year,base){
