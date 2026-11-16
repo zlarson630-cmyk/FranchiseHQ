@@ -44,6 +44,11 @@ function illinoisPool(x){
 function illinoisPos(p){return String(p.pos||p.position||'').toUpperCase().trim()}
 function illinoisYears(x){const start=illinoisBase(x);return Array.from({length:5},(_,i)=>start+i)}
 function illinoisEligible(p,year,base){
+ // 2012 draft entrants, departures and graduates do not appear on 2012–13 onward.
+ // Preserve their 2011–12 player profiles and historical performance.
+ const ill=typeof f==='function'?f():null;
+ const departure=ill?.id==='illinois-basketball-2010'?(ill.illinois2012Departures||[]).find(d=>String(d.number)===String(p.number??'')||(d.name===p.name)):null;
+ if(year>2011&&departure)return false;
  if(p.source==='archive')return year===base;
  const raw=String(p.year||'').toLowerCase();
  const stage=/freshman|\bfr\b/.test(raw)?0:/sophomore|\bso\b/.test(raw)?1:/junior|\bjr\b/.test(raw)?2:/senior|\bsr\b/.test(raw)?3:null;
@@ -75,7 +80,8 @@ function illinoisSnapshot(x){
   const group=pool.filter(p=>illinoisGroup(p)===pos);
   html+='<div class="snapshot-group">'+pos+'</div>';
   for(const p of group){
-   html+='<div class="snapshot-player"><span class="snapshot-player-name">'+illinoisNameButton(p)+'</span><small>'+esc(illinoisPos(p)||pos)+(p.number?' · #'+esc(p.number):'')+(p.source==='archive'?' · Archive':'')+'</small></div>';
+   const leave=(x.illinois2012Departures||[]).find(d=>String(d.number)===String(p.number??'')||d.name===p.name);
+   html+='<div class="snapshot-player"><span class="snapshot-player-name">'+illinoisNameButton(p)+'</span><small>'+(leave?' · '+esc(leave.status):'')+'</small><small>'+esc(illinoisPos(p)||pos)+(p.number?' · #'+esc(p.number):'')+(p.source==='archive'?' · Archive':'')+'</small></div>';
    for(const yr of years){
     const present=illinoisEligible(p,yr,base),ovr=present?illinoisRating(p,yr,base):null;
     html+='<div class="snapshot-rating-cell">'+(present?'<span class="snapshot-rating" style="background:'+(ovr===null?'#68778b':ratingColor(ovr,x))+'">'+(ovr===null?'?':esc(ovr))+'</span>':'<span class="snapshot-empty">—</span>')+'</div>';
