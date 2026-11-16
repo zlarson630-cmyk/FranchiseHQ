@@ -1,0 +1,21 @@
+Source image: Screenshot 2026-11-15 20-57-57.png
+Screen: Illinois final box score
+
+The Illinois Box Score tab shows the scoring by half and the visible Illinois player rows. Vern Leadbetter led Illinois with 14 points, and Shema Mattox had 10 points and eight rebounds. A dash means the position cell is blank.
+
+Team     | 1st | 2nd | OT | Total
+Baylor   |  23 |  27 |  0 |    50
+Illinois |  21 |  20 |  0 |    41
+
+Player         | POS | PTS | REB | AST | STL | BLK | TO | FG   | 3PT | FT  | PF | MIN
+R. Summers     | PG  |   4 |   0 |   4 |   0 |   0 |  2 |  2-2 | 0-0 | 0-0 |  0 |  18
+SG #24         | SG  |   6 |   1 |   2 |   0 |   0 |  1 |  2-9 | 2-3 | 0-0 |  0 |  17
+M. Defares     | SF  |   5 |   1 |   1 |   0 |   0 |  1 | 2-10 | 1-5 | 0-0 |  0 |  15
+V. Leadbetter  | PF  |  14 |   2 |   1 |   1 |   0 |  1 |  6-7 | 0-0 | 2-3 |  0 |  18
+S. Mattox      | C   |  10 |   8 |   1 |   2 |   0 |  0 |  5-7 | 0-0 | 0-2 |  1 |  18
+S. Nelson      | —   |   2 |   0 |   0 |   0 |   0 |  0 |  1-1 | 0-0 | 0-0 |  0 |   2
+L. Osimani     | DNP, coach's decision
+C #54          | —   |   0 |   2 |   0 |   1 |   0 |  0 |  0-1 | 0-0 | 0-0 |  0 |   2
+P. Jefferies   | —   |   0 |   0 |   0 |   0 |   0 |  0 |  0-0 | 0-0 | 0-0 |  0 |   2
+A. Eaton       | —   |   0 |   1 |   1 |   0 |   0 |  0 |  0-0 | 0-0 | 0-0 |  1 |   5
+C. Simpson     | DNP, coach's decision

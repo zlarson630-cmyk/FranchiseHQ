@@ -1,0 +1,28 @@
+Source image: Screenshot 2026-11-15 20-58-28.png
+Screen: Final team stats
+
+The Teams screen shows that Baylor won 50–41, shot 62.2% from the field, and outrebounded Illinois 20–15. Ratings below come from this postgame screen.
+
+Stat                    | Baylor | Illinois
+Score                   |     50 |       41
+Timeouts                |      1 |        5
+Field goals             |  23/37 |    18/39
+Field goal %            |  62.2% |    46.2%
+Three-pointers          |    2/9 |      3/9
+Three-point %           |  22.2% |    33.3%
+Free throws             |    2/3 |      2/5
+Free throw %            |  66.7% |    40.0%
+Assists                 |     14 |       12
+Turnovers               |      5 |        5
+Team fouls              |      4 |        3
+Total rebounds          |     20 |       15
+Offensive rebounds      |      0 |        1
+Steals                  |      3 |        4
+Blocks                  |      2 |        0
+Points in the paint     |     32 |       22
+Bench points            |      2 |        2
+Second-chance points    |      0 |        0
+Fast-break points       |      8 |        0
+Offense rating          |     89 |       92
+Defense rating          |     89 |       95
+Overall rating          |     88 |       94

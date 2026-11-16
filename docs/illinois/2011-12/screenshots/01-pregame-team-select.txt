@@ -1,0 +1,8 @@
+Source image: Screenshot 2026-11-15 20-23-18.png
+Screen: Pregame team ratings
+
+The Team Select screen lists Baylor as the away side and Illinois as the home side. The controller profile Zach is on Illinois.
+
+Team     | Side | Conference | OVR | Offense | Defense | Team unity
+Baylor   | Away | Big 12     |  85 |      85 |      85 |         66
+Illinois | Home | Big Ten    |  92 |      91 |      93 |         69

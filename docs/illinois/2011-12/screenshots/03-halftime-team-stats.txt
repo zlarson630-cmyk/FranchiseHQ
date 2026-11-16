@@ -1,0 +1,12 @@
+Source image: Screenshot 2026-11-15 20-41-46.png
+Screen: Halftime team stats
+
+Baylor leads Illinois 23–21 at halftime. The screen identifies Baylor with Waco, TX, and Illinois with Champaign, IL.
+
+Stat           | Baylor | Illinois
+Score          |     23 |       21
+Field goal %   |    55% |      47%
+Three-pointers |    2/6 |      1/3
+Free throws    |    1/2 |      0/1
+Rebounds       |     10 |        9
+Turnovers      |      2 |        2

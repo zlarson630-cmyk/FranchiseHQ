@@ -1,0 +1,19 @@
+Source image: Screenshot 2026-11-15 21-00-22.png
+Screen: NCAA champions: Clemson
+
+The NCAA Champions awards screen names Clemson the national champion. Clemson finished 34–4 overall and 13–3 in the Atlantic Coast Conference.
+
+Location: Clemson, SC
+Ratings: 94 overall, 94 offense, 93 defense, 95 shooting, 87 rebounding
+
+Visible roster (a dash means the position cell is blank)
+Player           | POS | Class | OVR
+#4 D. Tudeme     | PG  | SR    | 84
+#21 G. Hope      | SG  | JR    | 87
+#11 P. Cleaves   | SF  | SR    | 88
+#44 C. Laurie    | PF  | SR    | 90
+#41 R. Mackinson | C   | JR    | 83
+#34 F. Allison   | —   | SO    | 81
+#23 D. Geiger    | —   | SO    | 81
+#55 L. Medina    | —   | FR    | 80
+#12 B. Wade      | —   | SO    | 77
