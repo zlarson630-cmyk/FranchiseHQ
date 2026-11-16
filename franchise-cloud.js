@@ -23,7 +23,11 @@
     selected=data.some(x=>x.id===selected)?selected:data[0].id;
     localStorage.setItem("franchise-hq-v1",JSON.stringify(data));
     localStorage.setItem("franchise-hq-selected",selected);
-    cloudVersion=r.version;lastSerialized=localPayload();active=true;conflict=false;remember();render();
+    cloudVersion=r.version;lastSerialized=localPayload();active=true;conflict=false;remember();
+    // Apply newly released, versioned Illinois roster only after loading the
+    // latest cloud payload, so an older cloud save cannot hide the new roster.
+    if(typeof seedIllinoisCurrentRoster==="function"&&seedIllinoisCurrentRoster())save();
+    render();
   }
   const allowed = a => Array.isArray(a) && a.length > 0 && a.every(x => x && x.id && x.name && Array.isArray(x.players));
   const el = id => document.getElementById(id);
