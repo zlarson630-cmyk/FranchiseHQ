@@ -5,7 +5,26 @@ test('application script dependencies load in order',()=>{const h=read('index.ht
 test('all owner navigation handlers have implementations',()=>{const s=read('app-core.js')+read('app-media.js');for(const name of ['render','changeTab','openPlayer','openCoach','openScribeStory','writerProfile','universeTimeline','firebird','publicationPage','mediaStoryList'])assert.match(s,new RegExp('function\\s+'+name+'\\s*\\('));assert.doesNotMatch(s,/\bq\(owner\.id\)|\bq\(x\.id\)/);});
 test('reader publication contract and private-field exclusions',()=>{const s=read('franchise-sharing.js');const fn=s.slice(s.indexOf('function snapshot('),s.indexOf('function readerUrl('));assert.match(fn,/publications/);assert.match(fn,/scribeArticles/);for(const forbidden of ['"notes"','"recruiting"','"nil"','"transferRisk"','"warRoom"','"password"'])assert.ok(!fn.includes(forbidden),'private field in snapshot: '+forbidden);});
 test('reader is separate from owner code',()=>{const h=read('reader.html');assert.doesNotMatch(h,/src="app-core\.js"|src="franchise-cloud\.js"/);assert.match(h,/\.eq\("published",true\)/);});
-test('no cross-franchise Firebird aggregation',()=>{assert.doesNotMatch(read('app-media.js'),/const entries=data\.flatMap/);});
+test('IDSN combines Firebird entries while franchise feeds and private drafts stay scoped',()=>{
+  const washington={id:'washington',name:'Washington Huskies',firebirdPosts:[
+    {handle:'@Huskies',text:'Washington reaction',date:'2029',storyId:'draft'},
+    {text:'Private post',status:'draft'}
+  ],scribeArticles:[{id:'draft',headline:'Private draft',status:'draft'}]};
+  const nevada={id:'nevada',name:'Nevada Jacks',nationalHeadlines:[{headline:'Nevada headline',date:'2108'}],
+    scribeArticles:[{id:'walk-off',headline:'Nevada walk-off',date:'2108',addedAt:'2026-11-17'}]};
+  const context=vm.createContext({data:[washington,nevada],esc:s=>String(s)});
+  vm.runInContext(read('app-media.js')+read('app-news.js'),context);
+  const combined=vm.runInContext('interdimensionalFirebird(data)',context);
+  assert.match(combined,/Washington reaction/);
+  assert.match(combined,/Nevada headline/);
+  assert.match(combined,/openScribeStory\("nevada","walk-off","IDSN Firebird"\)/);
+  assert.doesNotMatch(combined,/Private draft|Private post/);
+  assert.ok(combined.indexOf('Nevada walk-off')<combined.indexOf('Nevada headline'));
+  assert.doesNotMatch(vm.runInContext('firebird(data[0])',context),/Nevada/);
+  const filtered=vm.runInContext('newsFranchise="nevada"; interdimensionalNews(true)',context);
+  assert.match(filtered,/Nevada headline/);
+  assert.doesNotMatch(filtered,/Washington reaction/);
+});
 
 test('Illinois canonical history is idempotent and preserves pending Baylor',()=>{const source=read('app-illinois-history.js');const sandbox={data:[{id:'illinois-basketball-2010',players:[{name:'Existing player'}],historicalPlayers:[]}],localStorage:{}};vm.createContext(sandbox);vm.runInContext(source+';seedIllinoisHistory();seedIllinoisHistory();',sandbox);const x=sandbox.data[0];assert.equal(x.historicalSeasons.length,5);assert.equal(x.historicalGames.length,4);assert.equal(x.historicalPlayers.length,4);assert.equal(x.coachIndex.length,1);assert.equal(x.players.length,1);assert.equal(x.historicalSeasons.find(z=>z.id==='illinois-2011-12').regularSeason.wins,21);const baylor=x.historicalGames.find(z=>z.opponent==='Baylor');assert.equal(baylor.status,'scheduled');assert.equal(baylor.result,null);assert.equal(baylor.teamScore,null);});
 

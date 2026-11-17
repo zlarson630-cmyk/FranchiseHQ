@@ -15,3 +15,9 @@
 .news-gallery figcaption, .news-credit { margin: .5rem 0; font-size: .9rem; }
 .news-photo-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: .75rem; margin-bottom: .75rem; }
 @media (max-width: 520px) { .news-gallery { grid-template-columns: 1fr; } }
+.news-views { display: flex; gap: .5rem; margin-bottom: 1rem; }
+.news-views [aria-current="page"] { background: var(--primary); color: white; }
+.firebird-feed { display: grid; gap: .75rem; max-width: 740px; }
+.firebird-entry { padding: 1rem; border-radius: .875rem; overflow-wrap: anywhere; }
+.firebird-entry p { white-space: pre-wrap; line-height: 1.5; margin: .6rem 0 0; }
+.firebird-story { display: grid; gap: .3rem; width: 100%; text-align: left; margin-top: .75rem; padding: .75rem; background: var(--soft); color: inherit; }

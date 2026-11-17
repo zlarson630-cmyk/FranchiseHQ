@@ -33,18 +33,32 @@ function newsCards(entries, back) {
 
 function newsHomePreview() {
   return '<section class="news-section"><div class="row"><h2 class="wide">' + IDSN +
-    ' <small class="muted">IDSN</small></h2><button onclick="changeTab(\'IDSN\')">All stories →</button></div>' +
+    ' <small class="muted">IDSN</small></h2><button onclick="changeTab(\'IDSN Firebird\')">Firebird</button>' +
+    '<button onclick="changeTab(\'IDSN\')">All stories →</button></div>' +
     newsCards(newsStories(data).slice(0, 2), 'Home') + '</section>';
 }
 
-function interdimensionalNews() {
+function interdimensionalNews(showFirebird = false) {
   const selectedNewsFranchise = data.find(franchise => franchise.id === newsFranchise);
+  const franchises = selectedNewsFranchise ? [selectedNewsFranchise] : data;
   return '<section class="news-section"><div class="row"><h2 class="wide">' + IDSN +
     ' <small class="muted">IDSN</small></h2><button onclick="goHome()">← Franchise HQ</button></div>' +
+    '<nav class="news-views" aria-label="IDSN views">' +
+    '<button' + (showFirebird ? '' : ' aria-current="page"') + ' onclick="changeTab(\'IDSN\')">Stories</button>' +
+    '<button' + (showFirebird ? ' aria-current="page"' : '') + ' onclick="changeTab(\'IDSN Firebird\')">Firebird</button></nav>' +
+    (showFirebird ? '<h3>Firebird</h3>' : '') +
     '<label class="news-filter">Franchise<select onchange="filterIDSN(this.value)"><option value="">All franchises</option>' +
     data.map(franchise => '<option value="' + esc(franchise.id) + '"' +
       (franchise === selectedNewsFranchise ? ' selected' : '') + '>' + esc(franchise.name) + '</option>').join('') +
-    '</select></label>' + newsCards(newsStories(selectedNewsFranchise ? [selectedNewsFranchise] : data), 'IDSN') + '</section>';
+    '</select></label>' + (showFirebird ? interdimensionalFirebird(franchises) :
+      newsCards(newsStories(franchises), 'IDSN')) + '</section>';
+}
+
+function interdimensionalFirebird(franchises) {
+  const entries = franchises.flatMap(franchise => firebirdEntries(franchise))
+    .sort((a, b) => (Date.parse(b.item.addedAt) || 0) - (Date.parse(a.item.addedAt) || 0) ||
+      String(b.item.date || '').localeCompare(String(a.item.date || '')));
+  return firebirdCards(entries, 'IDSN Firebird');
 }
 
 function filterIDSN(id) {
@@ -170,15 +184,17 @@ function installNewsNavigation() {
   const renderFranchiseHQ = render;
   render = function renderWithNews() {
     const route = tab;
-    if (route === 'IDSN' || route === 'Franchise News') {
-      tab = route === 'IDSN' ? 'Home' : 'Dashboard';
+    const globalNews = route === 'IDSN' || route === 'IDSN Firebird';
+    if (globalNews || route === 'Franchise News') {
+      tab = globalNews ? 'Home' : 'Dashboard';
       try {
         renderFranchiseHQ();
       } finally {
         tab = route;
       }
       document.getElementById('home-button').disabled = false;
-      document.getElementById('view').innerHTML = route === 'IDSN' ? interdimensionalNews() : franchiseNews(f());
+      document.getElementById('view').innerHTML = globalNews ?
+        interdimensionalNews(route === 'IDSN Firebird') : franchiseNews(f());
       return;
     }
 
