@@ -8,11 +8,14 @@ function snapshot(x){
  const players=(x.players||[]).map(p=>pick(p,["id","name","pos","position","number","year","hometown","team","season","history","stats","badges","awards","biography"]));
  const historicalPlayers=(x.historicalPlayers||[]).map(p=>pick(p,["id","name","team","season","role","position","awards","history","biography","previousPosition","transfer","transferFrom"]));
  const coaches=(list)=>(list||[]).map(c=>pick(c,["id","name","team","role","archetype","almaMater","biography","history","career","prestige"]));
- const articles=(x.scribeArticles||[]).map(a=>pick(a,["id","publicationId","writerId","category","date","headline","deck","body"]));
+ const articles=scribeArticles(x).filter(isPublishedStory).map(a=>({
+   ...pick(a,["id","publicationId","writerId","category","date","headline","deck","body","imageCredit","sourceUrl","sourceLabel"]),
+   images:storyPhotos(a)
+ }));
  const writers=(x.mediaPersonalities||[]).map(w=>pick(w,["id","name","role","bio","voice","publicationId","career"]));
  const publications=(x.publications||[]).map(p=>pick(p,["id","name","brand","description","voice"]));
  const posts=(x.firebirdPosts||[]).map(p=>pick(p,["id","date","handle","author","type","text","writerId","articleId"]));
- return {id:x.id,name:x.name,sport:x.sport,season:x.season,description:x.description,colors:pick(x.colors||{},["primary","accent"]),players,historicalPlayers,staff:coaches(x.staff),coachIndex:coaches(x.coachIndex),universeHistory:(x.universeHistory||[]).map(e=>pick(e,["id","year","title","type","body"])),universeRules:(x.universeRules||[]).map(e=>pick(e,["id","title","name","body","description"])),historicalSeasons:(x.historicalSeasons||[]).map(v=>pick(v,["id","season","wins","losses","conference","conferenceWins","conferenceLosses","finish","status","postseason","recordCheckpoint","regularSeason"])),historicalGames:(x.historicalGames||[]).map(v=>pick(v,["id","seasonId","stage","opponent","date","venue","status","teamScore","opponentScore","result","playerOfGameId"])),scribeArticles:articles,mediaPersonalities:writers,publications,firebirdPosts:posts};
+ return {id:x.id,name:x.name,sport:x.sport,season:x.season,description:x.description,colors:pick(x.colors||{},["primary","accent"]),players,historicalPlayers,staff:coaches(x.staff),coachIndex:coaches(x.coachIndex),universeHistory:(x.universeHistory||[]).map(e=>pick(e,["id","year","title","type","body"])),universeRules:(Array.isArray(x.universeRules)?x.universeRules:[]).map(e=>pick(e,["id","title","name","body","description"])),historicalSeasons:(x.historicalSeasons||[]).map(v=>pick(v,["id","season","wins","losses","conference","conferenceWins","conferenceLosses","finish","status","postseason","recordCheckpoint","regularSeason"])),historicalGames:(x.historicalGames||[]).map(v=>pick(v,["id","seasonId","stage","opponent","date","venue","status","teamScore","opponentScore","result","playerOfGameId"])),scribeArticles:articles,mediaPersonalities:writers,publications,firebirdPosts:posts};
 }
 function readerUrl(slug){return new URL("reader.html?share="+encodeURIComponent(slug),location.href).href}
 let current=null;
