@@ -38,3 +38,31 @@
 .outlook-scroll{max-height:none;overflow-x:auto;overflow-y:visible;scrollbar-gutter:auto}
 @media(max-width:700px){.outlook-scroll{max-height:none;overflow-x:auto;overflow-y:visible}}
 .outlook-note{position:static;display:block;margin-top:18px;padding:12px 0 20px;border-top:1px solid #e1dce8;font-size:11px;line-height:1.5}
+
+/* Kentucky Trade Lab */
+.trade-lab h3,.trade-lab h4{margin:0;color:var(--primary)}
+.trade-sides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.trade-side,.trade-results{display:grid;gap:14px;min-width:0}
+.trade-side>p,.trade-results>p,.trade-storage{margin:0}
+.trade-card-top,.trade-actions{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:10px}
+.trade-actions{justify-content:flex-start}
+.trade-asset{display:grid;gap:12px;min-width:0;border:1px solid #dce3ed;border-radius:12px;padding:14px;background:#f8fafc}
+.trade-asset p{margin:0}
+.trade-fields,.trade-scenario{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
+.trade-scenario{grid-template-columns:minmax(0,1fr) minmax(0,2fr);margin:0;padding:8px 10px 10px;border:1px solid #dce3ed;border-radius:8px}
+.trade-scenario legend{padding:0 4px;font-weight:600}
+.trade-lab label{display:grid;align-content:start;gap:4px;font-size:.875rem}
+.trade-lab input{width:100%;min-width:0;margin:0;font-size:1rem;background:#fff}
+.trade-discount{max-width:150px}
+.trade-outcomes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.trade-outcomes>div{display:grid;gap:4px;padding:12px;background:var(--soft);border-radius:10px}
+.trade-outcomes strong{font-size:clamp(1rem,3vw,1.5rem);color:var(--primary);font-variant-numeric:tabular-nums}
+.trade-outcomes span,.trade-asset-result{font-size:.875rem}
+.trade-asset-result{font-weight:650;color:var(--primary)}
+.trade-asset-result.trade-error{color:#9b261c}
+.trade-table{overflow-x:auto}
+.trade-table table{margin:0;min-width:0}
+.trade-table th,.trade-table td{padding:8px 6px;font-size:.875rem;font-variant-numeric:tabular-nums}
+.trade-method summary{cursor:pointer;font-weight:650;color:var(--primary)}
+@media(max-width:730px){.trade-sides{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:450px){.trade-outcomes{grid-template-columns:repeat(2,minmax(0,1fr))}.trade-outcomes>div:last-child{grid-column:1/-1}}
